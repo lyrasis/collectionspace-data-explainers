@@ -99,7 +99,7 @@ The advanced search form for Objects does not include the ability to search by b
 
 Additionally, you cannot do a search like "all Location/Movement/Inventory procedures having current location `Museum of Stuff > Gallery 1` or its children".
 
-You _can_ do a search for "all Storage Location terms beginning with `Museum of Stuff > Gallery 1`" footnote:[Term display name matches `Museum of Stuff > Gallery 1*`]
+You _can_ do a search for "all Storage Location terms beginning with `Museum of Stuff > Gallery 1`"
 
 But, when searching another record type that _uses_ said authority terms, the search in the app only allows you to specify:
 
