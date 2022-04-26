@@ -1,0 +1,165 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Storage Location authority info and decisions
+
+toc::[]
+
+* Storage location authority terms are used to populate the `Current location > Location` and `Normal location` fields for the Location/Movement/Inventory (LMI) procedure in CS
+* There are two Storage Location authorities: Local and Offsite. More on these below.
+* We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
+* Organization authority terms can also be used to populate location fields in the LMI procedure.
+* Like all authority terms, Storage locations can be https://collectionspace.atlassian.net/wiki/spaces/COL/pages/546013229/User+Manual+Creating+Authority+Hierarchies[organized in a hierarchy]. See https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
+
+== Decisions you may be asked to make
+=== Do you want a location hierarchy?
+
+Some legacy systems make it fairly easy to extract data we can use to create a location hierarchy in CS.
+
+However, we have had clients who didn't see the need for it, given the information in https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
+
+We tend to default to creating a hierarchy if we have the necessary data available, but if you don't want it, just let us know.
+
+=== Which Storage Location authority vocabulary should each location term be assigned to?
+
+Your legacy system may have the following location values:
+
+* Museum of Stuff
+* Museum of Stuff > Library
+* Museum of Stuff > Library > Rare Book Room
+* Museum of Stuff > Museum
+* Museum of Stuff > Museum > Gallery A
+* Museum of Stuff > Museum > Gallery B
+* Museum of Stuff > Museum > Curator's Office
+* Museum of Stuff > Offsite storage
+* Museum of Stuff > Offsite storage > Room 123
+* Museum of Stuff > Offsite storage > Rm 123 > Shelf 4
+* Museum of Stuff > Out for repair
+* Academy of Stuff Studies
+* Museum of Stuff > Metro Airport
+* Museum of Stuff > Metro Airport > Display Case 1
+* Museum of Stuff > Metro Airport > Display Case 2
+* Jerry Q. Collector
+
+These may or may not be coded in your legacy system as being local vs. offsite, but we find that it is typically worthwhile to review the categorization for the migration.
+
+**Separating these out into separate authority vocabularies for CS is _not_ required**. We default to loading all your location values into Storage Locations/Local if you want them all in one authority.
+
+Depending on your situation, there may be benefits to separating the Storage Locations into the Local and Offsite vocabularies. In this case, you might end up with:
+
+**Storage Locations/Local**
+
+* Museum of Stuff
+* Museum of Stuff > Library
+* Museum of Stuff > Library > Rare Book Room
+* Museum of Stuff > Museum
+* Museum of Stuff > Museum > Gallery A
+* Museum of Stuff > Museum > Gallery B
+* Museum of Stuff > Museum > Curator's Office
+
+**Storage Locations/Offsite**
+* Museum of Stuff > Offsite storage
+* Museum of Stuff > Offsite storage > Room 123
+* Museum of Stuff > Offsite storage > Rm 123 > Shelf 4
+* Museum of Stuff > Out for repair
+
+**And the following...**
+* Academy of Stuff Studies
+** A partner organization, and we have an Organization record for them
+
+* Museum of Stuff > Metro Airport
+* Museum of Stuff > Metro Airport > Display Case 1
+* Museum of Stuff > Metro Airport > Case 2
+** The airport could either be recorded as an Organization, or modeled as a Storage Location. Since the data here suggests specific physical locations at the airport, our suggestion would be to treat as an Offsite Storage Location.
+
+* Jerry Q. Collector
+** A Person name cannot be used to populate location fields in the LMI procedure, so we need to categorize it somewhere
+** Default suggestion would be as Offsite Storage Location. We could optionally add a "Person" <<storage-location-type-field>>.
+
+
+==== Some benefits of this approach
+If we are creating a location hierarchy, our typical practice is to https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc#represent-the-hierarchy-in-the-object-number-or-term-display-name[represent the hierarchy in the term display name].
+
+Depending on the organization, categorizing into different authorities can eliminate some of the levels of hierarchy we need to record in a lot of terms.
+
+Perhaps we can do something like the following to shorten the hierarchy paths:
+
+**Storage Locations/Local**
+
+* Library
+* Library > Rare Book Room
+* Museum
+* Museum > Gallery A
+* Museum > Gallery B
+* Museum > Curator's Office
+
+The top-level "Museum of Stuff" location is eliminated, but that might be ok if that was not a location assigned to any objects.
+
+Maybe the following would work:
+
+**Storage Locations/Offsite**
+* Museum Offsite Storage
+* Museum Offsite Storage > Room 123
+* Museum Offsite Storage > Rm 123 > Shelf 4
+* Out for repair
+* Metro Airport
+* Metro Airport > Display Case 1
+* Metro Airport > Case 2
+* Jerry Q. Collector
+
+**We realize that hierarchy levels that may look unnecessary to us might serve important local purposes, but present the above as the type of thing to think about when you are reviewing your locations for migration, just in case this kind of restructuring is an improvement for you.**
+
+=== Review location names for consistency, with an eye to shortening them
+
+Is there a way you can shorten locations in a consistent way, that will still be meaningful and easy to use for you? This can be a big benefit for viewing these values within the application.
+
+The following is a little extreme, but this sort of thing has worked for clients:
+
+**Storage Locations/Local**
+
+* L
+* L>RBR
+* M
+* M>G>A
+* M>G>B
+* M>CO
+
+**Storage Locations/Offsite**
+* MOS
+* MOS>R123
+* MOS>R123>S4
+* Out for repair
+* Airport
+* Airport>1
+* Airport>2
+* Jerry Q. Collector
+
+Taking this approach, the longer form could optionally be mapped into the location record, either as the `Term > Name` field value, or as a variant form of the location name.
+
+=== Storage location type field
+
+This field lets you specify the type of location: room, building, drawer, shelf, etc.
+
+Depending on the legacy data source, this data may exist in a cleanly mappable way. Or, we may be able to do a kind of simple mapping based on the last segment of the location name. For example, if the last segment contains "room" or "rm", assign "room".
+
+You can easily add your own Location Type values under `Tools > Term Lists > Location Type`.
+
+During location cleanup/review, you have the option to add or change location type values.
+
+**You may also tell us you don't want location type values set in CS**
+
+It is one thing to batch migrate all data in via a consistent process, however:
+
+* Is this something you imagine yourself consistently populating when you add new locations going forward? If not, do you want it in the migrated data?
+* If it is set via a "dumb" mapping based on text in the location name, does it add anything useful to know that "Room 7" is a room? Do you expect to use this field for searching/filtering/reporting? If not, maybe it is not important for you?
+
+

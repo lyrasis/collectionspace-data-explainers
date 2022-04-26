@@ -146,4 +146,6 @@ We can do these things if we have:
 * Museum of Stuff > Gallery 1 > Room 1
 * Museum of Stuff > Gallery 1 > Room 2
 
+This latter approach also protects against problems like how to represent Room 1 of the Museum's Library in a consistent way.
 
+WARNING: One downside of this approach is that terms, especially, can get quite lengthy. This can be problematic if the most salient specific part of the term is cut off in search results display or when viewing records without clicking on/hovering over the term.
