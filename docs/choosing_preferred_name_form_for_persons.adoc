@@ -1,0 +1,116 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Choosing preferred form of name for Person authorities
+
+toc::[]
+
+== The big decision
+
+This is mainly about whether to use direct (Mary P. Smith) or inverted (Smith, Mary P.) form of name as your preferred form of person name in CS.footnote:[This could also refer to different language forms of the same name, but in practice I have not run into this situation in client data --Migration specialist KS]
+
+If your legacy system records name parts in a granular manner (given, middle, last, titles, suffixes in separate fields for each name), and you have populated this data accurately/consistently, we can generally use this data to create whichever preferred and variant forms you like.
+
+If not, your choice may be limited to the form of name that has been recorded in your legacy system, unless you are willing to undertake significant data cleanup as part of the migration.
+
+== What does "preferred form" mean in CS?
+
+* This is the *_first_* form of the name recorded in the Person authority record
+* It is the form of name that will be displayed in your Object or procedure records when you populate fields using Person authority terms
+* It is the name you will see under "Display name" in search results for Persons
+
+NOTE: You can edit the preferred form later, and the form displayed in other records and in search results will reflect your changes. However, when you first create a term record, the system generates a persistent under-the-hood unique ID based on the initial preferred form. This should not have an effect on your work in the system, though.
+
+== What are "variant forms" in CS?
+
+- These would be any subsequent forms of a name recorded in the same Person record.
+- When entering data in a field controlled by a Person authority, you can type in the variant form to find/assign the desired person name.
+- Searching for a variant form will return records containing that variant form in a simple or advanced search for Persons.
+
+== Alternate names
+
+"Mary P. Smith", "Smith, Mary P.", and "M.P. Smith" are all variant forms of the same basic name.
+
+An alternate name would be something like "Mary Poole" (pre-marriage name), or "Marylou Smithson" (pseudonym).
+
+If your legacy system represents alternate names in a systematic way, we can merge them into the appropriate person records.
+
+They will be another subsequent form of name recorded in the same Person record, and will function like a variant name in the system.
+
+== Other term info fields related to name form
+If name part details are available in the legacy data, they are mapped to the `Term > Name detail` fields.
+
+It is possible to:
+
+* Set the `Term > Preferred for lang` field to checked/true in the preferred form
+** Migration Specialist (KS) note: I typically do not ensure this box is checked, for a couple of reasons: (1) It doesn't actually affect any system behavior; and (2) If a client doesn't always remember to check that box when adding a new person name (which is unlikely), then the data becomes inconsistent, and one can think it means something that the box is checked or not
+
+* Set `Term > Flag` values to indicate `variant form`, `birth name`, `pseudonym`, or other alternate name categories
+** KS note: Generally I do not indicate `variant form` because the fact that it is a variant is typically obvious from looking at the record. Where data on the type of alternate name is available, I do populate this, as it helps explain why the different name is in the record
+
+== Considerations in choosing preferred form
+
+* **Does your legacy system support recording name part details separately (first name, middle name, last name)?**
+** IF NO:
+*** Unless you are able to do significant data work as part of the migration, you may need to go with whatever form of name you used in the legacy system
+*** Variant form will not be provided as part of the migration, because we don't have the data necessary to generate it
+** IF YES:
+*** If you have entered this data accurately and consistently, you may have options. See <<system-specific-considerations>> for more info or consult with your Migration Specialist.
+
+* **Will you (now or in the future) want to use https://getty.edu/research/tools/vocabularies/ulan[Union List of Artist Names (ULAN)] Person names in your CS instance?**
+** ULAN names are in inverted format
+** If you want your local names to be consistent with your ULAN names, you probably want to use inverted form as your preferred form (This is desireable because it will simplify reporting and sorting exported record data which may use names from both authorities)
+
+* **Exporting/sorting/reporting**
+** _**Do you need/want to alphabetize person names by surname with minimal effort?**_ Using inverted form of name may be preferable.
+
+NOTE: If you have coded name part details in TMS and choose direct form as your preferred form in CS, you can still sort on last name, export all the name parts and combine them as needed outside CS, or use the individual name parts in reports to control sort order.
+
+== Common questions
+=== Can I change my mind later?
+Not really.
+
+This choice is fundamental to linking your data together in CS, so changing it during the course of a migration would require a lot of initial work to be re-done.
+
+After data is in CS, you can manually change what form is used as preferred form in one record at a time. This causes all records using that name to be updated, which happens automatically, but can take a long time if many records use a name.
+
+Unfortunately, you cannot batch change the preferred form of name via the CSV Importer. This is because the preferred form of name is what the CSV Importer uses to match data in a CSV to records in CS. If you change the preferred form of name in the CSV, it won't match an existing name in CS, and will import as a new name.
+
+=== Our Person names don't have individual name part data. Should we just use whatever form of name is recorded?
+
+If your priority is the quickest possible migration with low effort on your part, *yes*.
+
+If you have the resources to provide those individual name parts as part of the migration, it will improve your data and how you can sort/report on it for the long term.
+
+We provide a worksheet, which in many cases footnote:[Assuming overall consistent data entry patterns, and mostly Western/English-centric names] can include simple pre-processing of the names into separate name detail fields for you to review. In many cases/for many name patterns, this works and you just need to review and fix any outliers.
+
+
+== System specific considerations
+=== TMS
+
+[NOTE]
+====
+What I have seen in TMS migrations thus far is there is always a "display name" (direct form) recorded for a constituent, otherwise it wouldn't show up as expected. It appears to be optional whether to populate the name detail fields. If populated, TMS appears to generate an inverted "sort name" under the hood.
+
+The following is based on these observations, without certainty that this is the case for *all* TMS instances.
+
+--Migration specialist KS
+====
+
+* **Have you consistently recorded name part details (first name, middle name, last name) in your TMS constituent records for individuals?**
+** IF NO:
+*** Migration with direct form as the preferred form can proceed without you doing data cleanup, but inverted form of name will **not** be included as a variant name form for names lacking name part details
+*** If you want to use inverted form as your preferred form, you will need to provide missing name details in the migration cleanup step
+** IF YES:
+*** Either approach works without too much cleanup
+*** If you use direct form as the preferred form, for all names having name part details recorded in TMS, you will get the inverted form as a variant form, and vice versa.
+

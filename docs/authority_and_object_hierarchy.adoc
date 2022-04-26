@@ -1,0 +1,149 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Authority and object hierarchy in CollectionSpace
+
+toc::[]
+
+Terms within a given authority vocabulary may be organized into a hierarchy. (https://collectionspace.atlassian.net/wiki/spaces/COL/pages/546013229/User+Manual+Creating+Authority+Hierarchies[User manual])
+
+.Hierarchy is authority vocabulary specific
+====
+If you have `Museum of Stuff` as a term in the Storage Locations/Local authority vocabulary, and `MoS Offsite Storage` as a term in the Storage Locations/Offsite authority vocabulary, you *cannot* create a hierarchical relationship between them, such that `Museum of Stuff` is the parent of `MoS Offsite Storage`. 
+====
+
+Object records may also be related to one another hierarchically. (https://collectionspace.atlassian.net/wiki/spaces/COL/pages/545783809/User+Manual+Creating+Object+Hierarchies[User manual])
+
+== Benefit/use of constructing term/object hierarchies
+
+=== Navigation from one level to another, record-by-record
+
+By viewing the Hierarchy section of a term or object record, you can browse up and down the hierarchy, as well as see other terms/objects at the same level ("adjacent").
+
+=== Other functionality might be added in the future
+
+For example, https://trello.com/c/DYBaMHz8/38-hierarchy-term-browse[Hierarchy browse] has been a future task on the CS roadmap for some time.
+
+== Hierarchy functionality (or lack thereof) which may be surprising
+
+.Example hierarchy
+====
+The explanations below will refer to the following hierarchy. This example uses objects, but the same applies to hierarchies of Concept authority terms, Storage Locations, etc.
+
+* Canning set
+** Canning jars (set)
+*** Half-gallon jar (whole)
+**** Half-gallon jar
+**** Widemouth lid (1)
+**** Widemouth band (1)
+*** Quart jar (whole)
+**** Quart jar
+**** Widemouth lid (2)
+**** Widemouth band (2)
+*** Pint jar (whole)
+**** Pint jar
+**** Standard lid (1)
+**** Standard band (2)
+** Pressure canner
+*** Pot
+*** Rubber gasket sealing ring
+*** Pressure regulator
+*** Steam gauge
+** Canning tongs
+* Cocktail set
+** Cocktail shaker
+*** Cocktail shaker body
+*** Lid/strainer
+*** Lid cap
+** Cocktail spoon
+** Cocktail strainer
+** Muddler
+====
+
+=== Single hierarchy is supported
+
+Each object/term can have only one parent.
+
+You cannot represent the full polyhierarchical relationships between AAT terms, for example.
+
+=== Data entered in a broader record is not inherited by the child records
+
+If the Canning set record specifies that the Object Production Organization is CanCorp, that information does not cascade down to the other objects that are part of the canning set.
+
+In order for all of the pieces of the canning set to be returned in a search for objects produced by CanCorp, that value needs to be entered into that field in each component object's record.
+
+
+=== Viewing/navigating hierarchy shows one level at a time
+You can navigate and view one level of hierarchy in each direction from the Hierarchy section of a record.
+
+For instance, if we are viewing the record for `Pint jar (whole)`, we will see:
+
+* The broader object is `Canning jars (set)`
+* There are three component objects: `Pint jar`, `Standard lid (1)`, and `Standard band (1)`.
+* There are two adjacent objects: `Half-gallon jar (whole)` and `Quart jar (whole)`
+
+Currently there is no overall, multi-level view of a hierarchy.
+
+=== Search is not hierarchy-aware
+
+The advanced search form for Objects does not include the ability to search by broader, component, or adjacent objects. That is, you cannot do a search for "all objects with `Cocktail set` as broader term".
+
+Additionally, you cannot do a search like "all Location/Movement/Inventory procedures having current location `Museum of Stuff > Gallery 1` or its children".
+
+You _can_ do a search for "all Storage Location terms beginning with `Museum of Stuff > Gallery 1`"footnote:[Term display name matches `Museum of Stuff > Gallery 1*`]
+
+But, when searching another record type that _uses_ said authority terms, the search in the app only allows you to specify:
+
+* all Location/Movement/Inventory procedures where current location is `Museum of Stuff > Gallery 1`
+* all Location/Movement/Inventory procedures where current location is not `Museum of Stuff > Gallery 1`
+* all Location/Movement/Inventory procedures where current location is blank
+* all Location/Movement/Inventory procedures where current location is not blank
+
+Additional search conditions may be added to specify:
+
+* all Location/Movement/Inventory procedures where
+** current location is `Museum of Stuff > Gallery 1`; OR
+** current location is `Museum of Stuff > Gallery 1 > Room 1`; OR
+** current location is `Museum of Stuff > Gallery 1 > Room 2`
+
+However, with a large or complex hierarchy, manually constructing such a search may not be possible.
+
+== Migration/data practices to help address some of the limitations
+
+=== Minimizing repetitive data entry 
+*If cataloging objects one-at-a-time in the application,* start with the top-level object. To create child records, clone the top-level object and update child-specific data.
+
+*If creating CSV data for batch import,* it is fairly simple to copy/paste values to all applicable rows and use filtering/sorting to check your work.
+
+=== Represent the hierarchy in the object number or term display name
+
+This helps with visualizing the hierarchy, and with being able to flexibly search for objects or terms in hierarchies.
+
+If we have the following storage locations:
+
+* Museum of Stuff
+* Gallery 1 (parent term: Museum of Stuff)
+* Room 1 (parent term: Gallery 1)
+* Room 2 (parent term: Gallery 1)
+
+Then, we visually cannot make sense of our hierarchy.
+
+We also cannot do a search to find Gallery 1 and all its parts.
+
+We can do these things if we have:
+
+* Museum of Stuff
+* Museum of Stuff > Gallery 1
+* Museum of Stuff > Gallery 1 > Room 1
+* Museum of Stuff > Gallery 1 > Room 2
+
+
