@@ -127,7 +127,9 @@ Maybe the following would work:
 
 Is there a way you can shorten locations in a consistent way, that will still be meaningful and easy to use for you? This can be a big benefit for viewing these values within the application.
 
-The following is a little extreme, but this sort of thing has worked for clients:
+If location names are very long, you may not see the end of the value in the display without clicking into the field. 
+
+The following is a most extreme shortening example, but this sort of thing has worked for clients in the past, and there are ways to make things briefer without being quite as cryptic:
 
 **Storage Locations/Local**
 
@@ -139,6 +141,7 @@ The following is a little extreme, but this sort of thing has worked for clients
 * M>CO
 
 **Storage Locations/Offsite**
+
 * MOS
 * MOS>R123
 * MOS>R123>S4
