@@ -69,12 +69,14 @@ Depending on your situation, there may be benefits to separating the Storage Loc
 * Museum of Stuff > Museum > Curator's Office
 
 **Storage Locations/Offsite**
+
 * Museum of Stuff > Offsite storage
 * Museum of Stuff > Offsite storage > Room 123
 * Museum of Stuff > Offsite storage > Rm 123 > Shelf 4
 * Museum of Stuff > Out for repair
 
 **And the following...**
+
 * Academy of Stuff Studies
 ** A partner organization, and we have an Organization record for them
 
@@ -109,6 +111,7 @@ The top-level "Museum of Stuff" location is eliminated, but that might be ok if 
 Maybe the following would work:
 
 **Storage Locations/Offsite**
+
 * Museum Offsite Storage
 * Museum Offsite Storage > Room 123
 * Museum Offsite Storage > Rm 123 > Shelf 4
