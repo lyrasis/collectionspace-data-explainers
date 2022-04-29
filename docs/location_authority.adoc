@@ -14,6 +14,8 @@ endif::[]
 
 toc::[]
 
+== Key points
+
 * Storage location authority terms are used to populate the `Current location > Location` and `Normal location` fields for the Location/Movement/Inventory (LMI) procedure in CS
 * There are two Storage Location authorities: Local and Offsite. More on these below.
 * We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
@@ -162,4 +164,45 @@ It is one thing to batch migrate all data in via a consistent process, however:
 * Is this something you imagine yourself consistently populating when you add new locations going forward? If not, do you want it in the migrated data?
 * If it is set via a "dumb" mapping based on text in the location name, does it add anything useful to know that "Room 7" is a room? Do you expect to use this field for searching/filtering/reporting? If not, maybe it is not important for you?
 
+=== How to handle crates/boxes/containers
 
+Some other systems have support for crates (or boxes or containers). Broadly, a crate isn't a location because the crate itself is stored in or moved between locations. A crate may contain one or more objects, but isn't itself part of an object hierarchy because it is temporary. So the crate functionality provides a way to say one or more objects are in a thing, and that thing is in a location.
+
+CS does not currently support this functionality, though it is on the roadmap.
+
+There are a few different ways we can model crate information in CS, though each has functionality tradeoffs.
+
+==== As sub-location
+So far, all of the migrations we have done for clients with crate data have used this approach.
+
+We model a crate or box as a Storage Location, with the parent location being the location of the crate.
+
+* Museum > Artifacts
+* Museum > Artifacts > Shelf A
+* Museum > Artifacts > Shelf A > Crate 12
+
+LMI procedures are created and related to objects in the crate to express data like:
+
+* 2022.1, current location as of 2022-01-04 = Museum > Artifacts > Shelf A > Crate 12
+* 2018.21.7, current location as of 2022-01-04 = Museum > Artifacts > Shelf A > Crate 12
+
+Benefits of this:
+
+* If these are the most recent LMIs for the given objects, when viewing each object, you can see each object is in Museum > Artifacts > Shelf A > Crate 12
+* If you visit the Location term record for Museum > Artifacts > Shelf A > Crate 12, you can see which objects have that location as `Computed current location`
+
+If you move the crate, the procedure would be to:
+* Change the first/preferred term display name from `Museum > Artifacts > Shelf A > Crate 12` to `Museum > Gallery staging > Crate 12`
+* Update the broader location to be `Museum > Gallery staging`
+
+Pro:
+
+* Fairly streamlined process for keeping the current location information up to date
+
+Con:
+
+* Changes the name of the location in the existing LMI, instead of actually creating a new LMI. This means there is not a permanent record of the movement of the crate and the objects in it.
+
+==== Other options
+
+If a permanent record of crate movement is required, or if the above strategy does not work for other reasons, your migration specialist can work through other options with you.
