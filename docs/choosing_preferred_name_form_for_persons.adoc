@@ -40,7 +40,7 @@ NOTE: You can edit the preferred form later, and the form displayed in other rec
 
 "Mary P. Smith", "Smith, Mary P.", and "M.P. Smith" are all variant forms of the same basic name.
 
-An alternate name would be something like "Mary Poole" (pre-marriage name), or "Marylou Smithson" (pseudonym).
+An alternate name would be something like "Mary Poole" (pre-marriage name of Mary P. Smith), or "Marylou Smithson" (pseudonym of Mary P. Smith).
 
 If your legacy system represents alternate names in a systematic way, we can merge them into the appropriate person records.
 
@@ -113,4 +113,6 @@ The following is based on these observations, without certainty that this is the
 ** IF YES:
 *** Either approach works without too much cleanup
 *** If you use direct form as the preferred form, for all names having name part details recorded in TMS, you will get the inverted form as a variant form, and vice versa.
+
+NOTE: Names are also extracted from selected fields in the Loans, Obj Accession, and Obj Locations tables in TMS. These do not have any name details associated with them, so large numbers of names from these data sources, and how you have entered them, may influence your decision.
 
