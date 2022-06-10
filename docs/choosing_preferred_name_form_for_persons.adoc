@@ -57,6 +57,9 @@ It is possible to:
 * Set `Term > Flag` values to indicate `variant form`, `birth name`, `pseudonym`, or other alternate name categories
 ** KS note: Generally I do not indicate `variant form` because the fact that it is a variant is typically obvious from looking at the record. Where data on the type of alternate name is available, I do populate this, as it helps explain why the different name is in the record
 
+* Add a second name term for the variant form of name, if structured name details data is available. For instance, if you are using inverted as preferred form, the first term in your record would be "Smith, Mary P.". We can, where structured name details are available, create a second term in the record for "Mary P. Smith"
+** KS note: We avoid doing this by default for the following reasons: Including the second variant term adds little functional benefit in CS, while continuing to follow this pattern in new records post-migration will involve extra, largely redundant, data entry.
+
 == Considerations in choosing preferred form
 
 * **Does your legacy system support recording name part details separately (first name, middle name, last name)?**
