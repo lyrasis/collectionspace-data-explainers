@@ -23,3 +23,29 @@ You must fill in a display name value. Filling in other details in the term bloc
 
 .Main/primary/preferred term block
 image::auth_ww_main_only.png["Main term block",2274]
+
+Once you have saved this person term, you can use it in any field controlled by the Person authority. For example, the Acquisition source field in the Acquisition procedure.
+
+In such a field, you start typing any part of the name and authority term matches will be shown so you can select them from a list to enter them in your record:
+
+.Searching to enter authority terms works matching from the beginning
+image::auth_ww_main_select.png["Authority term match from beginning of term",1158]
+
+.It also works matching other parts of the term
+image::auth_ww_main_select_part.png["Authority term match from other part of term",1158]
+
+Now you will see the "Display term" value of the main/primary/preferred term in your acquisition record:
+
+.Filled in Acquisition source field
+image::auth_ww_main_acqsource.png["Acquisition source field populated with authority term",1158]
+
+This is the value you also see elsewhere in the system, such as search results lists for Acquisition procedures:
+
+.Acquisition search results list
+image::auth_ww_main_acq_search_list.png["Acquisition search results list",1158]
+
+This is also the value you will get if you export data from selected records to CSV.
+
+If you are using the CSV Importer to batch ingest or update data, you must enter the exact main/primary/preferred term values in your CSV data. 
+
+
