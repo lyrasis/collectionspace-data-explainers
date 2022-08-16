@@ -15,6 +15,11 @@ endif::[]
 
 toc::[]
 
+== Configuration/data entry recommendations
+
+* Configure your CS instance to disallow populating fields with variant display names for terms (given examples below, this means populating all fields with "Wonder Woman" and not using "Diana Prince" in records)
+* Do your best to maintain unique main display names in a given authority vocabulary (i.e. Person/Local or Organization/ULAN). If you are a LYRASIS hosted CS client, we can quickly run a report of duplicate terms in a given authority for you on request.
+
 == Main/primary/preferred term
 
 The first term block in an authority record is the main/primary/preferred term.
@@ -118,7 +123,7 @@ image::auth_ww_search_when_var_used.png[1692]
 * [needs confirmation] If using the public browser, variant terms will facet differently/separately from the main terms. Again, this goes against the spirit of authorities, which are implemented in order to enforce data consistency
 * Having multiple forms of name for the same entity/concept in your data makes it more difficult than it already is to ensure the integrity of that data. The problems of non-unique name values multiplies when you must also take into account whether the same variant name appears in more than one record. 
 
-=== General issues with data integrity, uniqueness, and batch processing related to authorities
+=== Duplicate display name values
 
 CS does not enforce the uniqueness of terms in a given authority vocabulary (i.e. Local Persons). I can create:
 
@@ -152,6 +157,9 @@ You can't tell which is which without clicking into the records.
 
 .Duplicate terms are not differentiated in search results list
 image::auth_dupe_search_results_list.png[1832]
+
+==== Public browser
+TODO: check this behavior - based on understanding of how data is indexed for the Public browser, I initially assume both our "Anonymous" names would get lumped into one "Anonymous" value.
 
 ==== Batch data ingest
 
