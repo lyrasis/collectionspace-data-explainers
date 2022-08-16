@@ -27,7 +27,7 @@ toc::[]
 ** The CollectionSpace CSV Importer uses batch operations to add, update or delete records from your CollectionSpace instance. If you ever want to use that tool, we recommend you ensure a unique ID is entered for each record you add to your instance.
 
 == Record ID: Definition
-This is a value in a record that uniquely identifies that record.
+This is a value in a record that serves as a human viewable/meaningful identifier for that record. The system maintains its own under-the-hood identifiers, but this page is about the identifiers that people enter and look at and use in their work. 
 
 It is usually the first (or nearly the first) field in the record form.
 
