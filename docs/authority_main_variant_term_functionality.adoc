@@ -46,13 +46,13 @@ Now you will see the "Display term" value of the main/primary/preferred term in 
 
 .Filled in Acquisition source field
 image::auth_ww_main_acqsource.png["Acquisition source field populated with authority term",1158]
-
++++&nbsp;+++
 
 This is the value you also see elsewhere in the system, such as search results lists for Acquisition procedures:
 
 .Acquisition search results list
 image::auth_ww_main_acq_search_list.png["Acquisition search results list",1158]
-
++++&nbsp;+++
 
 This is also the value you will get if you export data from selected records to CSV.
 
@@ -64,13 +64,13 @@ You may enter additional term blocks in your authority record to add variant for
 
 .Additional term block added with variant term details
 image::auth_ww_var.png["Additional term block added with variant term details",2312]
-
++++&nbsp;+++
 
 Now you can enter part of the variant term in the Acquisition source field and the matching variant will be shown (indented) under the main/preferred term.
 
 .Searching to enter authority terms includes matches in variant terms
 image::auth_ww_var_select.png["Variant term match when populating field",1114]
-
++++&nbsp;+++
 
 [NOTE]
 ====
@@ -78,13 +78,13 @@ Depending on how your CS instance is configured, you _may_ be able to select the
 
 .Use of variant form in record
 image::auth_ww_var_select_var.png["Use of variant form in record",1114]
-
++++&nbsp;+++
 
 If you do this, you will see the variant term in your record, in exported data, and in search results lists, but if you hover over the term in the record, you see the main term:
 
 .Popup when hovering over use of variant form in record
 image::auth_ww_var_select_var_hover.png[942]
-
++++&nbsp;+++
 
 **We recommend configuring your CS instance to enforce the use of main terms only.** See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record. 
 ====
@@ -93,6 +93,7 @@ Searching for Person terms where display names contain "Prince" returns results 
 
 .Display of main term in search result for variant
 image::auth_ww_var_search.png[1370]
++++&nbsp;+++
 
 == Maintenance functionality
 
@@ -114,11 +115,13 @@ Note that you can only merge terms from the same authority vocabulary. That is, 
 
 .Uses of "Wonder Woman" authority term 
 image::auth_ww_used_by_var.png[1692]
++++&nbsp;+++
 
 * However, if you search for acquisitions with "Wonder Woman" as acquisition source, there are zero results. Again, this is against the purpose of using authorities. Given that you can export from search results, but not the "Used by" list, this is especially limiting.
 
 .Searching for "Wonder Woman" does not retrieve uses of variant
 image::auth_ww_search_when_var_used.png[1692]
++++&nbsp;+++
 
 * Use of variant forms in your records will introduce complications (or difficulties) in getting the desired results in reports, database queries, or applications leveraging the REST API.
 * [needs confirmation] If using the public browser, variant terms will facet differently/separately from the main terms. Again, this goes against the spirit of authorities, which are implemented in order to enforce data consistency
@@ -147,17 +150,20 @@ The user interface make it possible for a careful human entering data to differe
 
 .Hovering over duplicate names for more details while entering data
 image::auth_dupe_search_hover.png[1926]
++++&nbsp;+++
 
 However, it is also easy to select the wrong one if you are not very careful:
 
 .Data entry without hovering
 image::auth_dupe_search.png[508]
++++&nbsp;+++
 
 ==== Search
 You can't tell which is which without clicking into the records.
 
 .Duplicate terms are not differentiated in search results list
 image::auth_dupe_search_results_list.png[1832]
++++&nbsp;+++
 
 ==== Public browser
 TODO: check this behavior - based on understanding of how data is indexed for the Public browser, I initially assume both our "Anonymous" names would get lumped into one "Anonymous" value.
