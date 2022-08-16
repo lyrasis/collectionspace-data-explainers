@@ -1,0 +1,18 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Authority main and variant term functionality
+
+toc::[]
+
+image::auth_ww_main_only.png[]
