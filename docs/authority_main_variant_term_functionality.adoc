@@ -15,4 +15,11 @@ endif::[]
 
 toc::[]
 
-image::auth_ww_main_only.png[]
+== Main/primary/preferred term
+
+The first term block in an authority record is the main/primary/preferred term.
+
+You must fill in a display name value. Filling in other details in the term block is optional.
+
+.Main/primary/preferred term block
+image::auth_ww_main_only.png["Main term block",1149,363]
