@@ -28,7 +28,7 @@ You must fill in a display name value. Filling in other details in the term bloc
 
 .Main/primary/preferred term block
 image::auth_ww_main_only.png["Main term block",2274]
-
++++&nbsp;+++
 
 Once you have saved this person term, you can use it in any field controlled by the Person authority. For example, the Acquisition source field in the Acquisition procedure.
 
@@ -36,10 +36,11 @@ In such a field, you start typing any part of the name and authority term matche
 
 .Searching to enter authority terms works matching from the beginning
 image::auth_ww_main_select.png["Authority term match from beginning of term",1158]
++++&nbsp;+++
 
 .It also works matching other parts of the term
 image::auth_ww_main_select_part.png["Authority term match from other part of term",1158]
-
++++&nbsp;+++
 
 Now you will see the "Display term" value of the main/primary/preferred term in your acquisition record:
 
