@@ -24,6 +24,7 @@ You must fill in a display name value. Filling in other details in the term bloc
 .Main/primary/preferred term block
 image::auth_ww_main_only.png["Main term block",2274]
 
+
 Once you have saved this person term, you can use it in any field controlled by the Person authority. For example, the Acquisition source field in the Acquisition procedure.
 
 In such a field, you start typing any part of the name and authority term matches will be shown so you can select them from a list to enter them in your record:
@@ -34,18 +35,52 @@ image::auth_ww_main_select.png["Authority term match from beginning of term",115
 .It also works matching other parts of the term
 image::auth_ww_main_select_part.png["Authority term match from other part of term",1158]
 
+
 Now you will see the "Display term" value of the main/primary/preferred term in your acquisition record:
 
 .Filled in Acquisition source field
 image::auth_ww_main_acqsource.png["Acquisition source field populated with authority term",1158]
+
 
 This is the value you also see elsewhere in the system, such as search results lists for Acquisition procedures:
 
 .Acquisition search results list
 image::auth_ww_main_acq_search_list.png["Acquisition search results list",1158]
 
+
 This is also the value you will get if you export data from selected records to CSV.
 
-If you are using the CSV Importer to batch ingest or update data, you must enter the exact main/primary/preferred term values in your CSV data. 
+If you are using the CSV Importer to batch ingest or update data, you must enter the exact main/primary/preferred term values in your CSV.
+
+== Variant terms
+
+You may enter additional term blocks in your authority record to add variant forms of term/name.
+
+.Additional term block added with variant term details
+image::auth_ww_var.png["Additional term block added with variant term details",2312]
 
 
+Now you can enter part of the variant term in the Acquisition source field and the matching variant will be shown (indented) under the main/preferred term.
+
+.Searching to enter authority terms includes matches in variant terms
+image::auth_ww_var_select.png["Variant term match when populating field",1114]
+
+
+[NOTE]
+====
+Depending on how your CS instance is configured, you _may_ be able to select the variant term for use in your record:
+
+.Use of variant form in record
+image::auth_ww_var_select_var.png["Use of variant form in record",1114]
+
+
+If you do this, you will see the variant term in your record, in exported data, and in search results lists, but if you hover over the term in the record, you see the main term:
+
+.Popup when hovering over use of variant form in record
+image::auth_ww_var_select_var_hover.png[942]
+
+We recommend configuring your CS instance to enforce the use of main terms only.
+====
+
+
+== Data integrity, uniqueness, and batch data processing issues
