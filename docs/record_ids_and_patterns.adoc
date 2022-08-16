@@ -1,0 +1,124 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Record IDs and Patterns
+
+toc::[]
+
+== Key points
+
+* When entering objects and many procedure record types in the CollectionSpace application, you have the option of using the automatic ID generation feature built into the user interface
+** The ID generators are not necessarily supposed to be fully automatic. You should expect, for some record types, to manually tweak the generated values to meet your needs.
+* When migrating existing data into CollectionSpace from another system, the IDs in your legacy data may not match the patterns used in the CollectionSpace ID generators
+* The CollectionSpace application does not enforce the uniqueness of record IDs, but warns you if you enter a duplicate ID.
+* The CollectionSpace application is case sensitive when determining record ID uniqueness. That is, if "2022.102.A" exists, you will *not* be warned when creating "2022.102.a".
+* The CollectionSpace application does not require entry of a record ID in all record types in all profiles.
+* *However, batch processing of your data requires a unique record ID in every record.*
+** A data migration is a large batch operation and we require/add a unique record ID in every record.
+** The CollectionSpace CSV Importer uses batch operations to add, update or delete records from your CollectionSpace instance. If you ever want to use that tool, we recommend you ensure a unique ID is entered for each record you add to your instance.
+
+== Record ID: Definition
+This is a value in a record that uniquely identifies that record.
+
+It is usually the first (or nearly the first) field in the record form.
+
+The name/label on this field is different per record type and may vary depending on the profile you are using. For core:
+
+Objects:: Identification number (often referred to as "object number")
+Acquisition:: Reference number
+Object Exit:: Exit number
+
+This field is almost always a required field in the record. Usually it is the only required field. There are a few record types in some profiles that do not technically require an ID number be entered, but it is best practice to always enter a unique ID in each record, in case you ever need to batch process those records.
+
+[IMPORTANT]
+.The record ID isn't literally a number
+====
+In many cases the record ID is a number or alpha-numeric value. We often find ourself referring to these values as "ID numbers" even if they contain letters. For some record types, the "ID number" may not contain any numeric info!
+
+For example:
+
+Group:: Title
+
+Also, for batch data operations, the first Term > Display name value in an authority record serves at the record id. (https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc[More about authorities])
+====
+
+== Record IDs in a custom migration
+
+Most legacy systems from which we migrate data into CollectionSpace include record IDs for some kinds of data. For example, there is almost always some kind of Object number or Accession/Acquisition number in a system.
+
+When record IDs exist in the legacy data, we migrate those IDs as-is into CS.
+
+Due to differences in data modeling and representation between legacy systems and CS, there are usually some record types for which we need to generate record IDs during a migration. Two common examples are the Location/Movement/Inventory (LMI) and Media Handling procedures. In these cases we construct unique record IDs for use in CS from available data in the legacy data set.
+
+The patterns we use to construct such IDs are flexible, within reason, so if you have preferences, let us know.
+
+NOTE: The patterns we devise to support migration data typically are not patterns suggested in the user interface number generators.They may not be the patterns you wish to carry forward as you begin working in CS. Most migration clients are content to treat the change in number pattern as a "feature", allowing them to easily distinguish legacy data from that which has been created within CS. 
+
+== Record IDs in batch data processing
+
+The record ID value is how the CSV Importer knows what record to update or delete. Therefore:
+
+* you cannot batch update or delete any records that:
+** do not have record IDs
+** have non-unique record IDs
+
+If you attempt to add a new record with an ID assigned to another record, the CSV Importer assumes you really want to update that existing record.
+
+TIP: If you are exporting data from CS to round-trip back in with the CSV Importer, always make sure to export the record ID value. Use your CSV/spreadsheet application to check for any duplicate or missing values in that field before ingesting the data. 
+
+=== Batch updating the record ID values
+
+This is a project that has sometimes come up. For example, perhaps your object numbers were like "2022.001" but now you have "2022.1000" and you want to add an extra padding zero to the already assigned numbers.
+
+Unfortunately, this is not currently possible with the CSV Importer, since it uses the record ID value to identify the record that should be updated. So if you change "2022.001" to "2022.0001", and import it as an update, it will lookup "2022.0001" and find no records with that ID. It can (and will, if you don't check the warnings!) create a new record with that ID, and then you have another project.
+
+I am considering a new CSV Importer "expert feature/option" where it would identify target records using the unique CSID value for each record instead of the human viewable/readable record ID value. I have put in https://collectionspace.atlassian.net/browse/DRYD-1080[a ticket to support export of record CSIDs from the application] as a first step towards implementing something like this.
+
+== Techical details on ID generators
+
+The gnarly details of ID generators are available via the CollectionSpace services API (your admin login credentials should get you in): 
+
+https://core.dev.collectionspace.org/cspace-services/idgenerators
+
+Using Movement Reference Number as an example, look for that in the list:
+
+[source,xml]
+----
+<idgenerator-list-item>
+  <displayname>Movement Reference Number</displayname>
+  <uri>/idgenerators/49ca9d8d-7136-47ff-a70e-4a47b9038b70</uri>
+  <csid>49ca9d8d-7136-47ff-a70e-4a47b9038b70</csid>
+</idgenerator-list-item>
+---
+
+Adding the `csid` value to the end of the base URL will take you to the details for that generator: 
+https://core.dev.collectionspace.org/cspace-services/idgenerators/49ca9d8d-7136-47ff-a70e-4a47b9038b70
+
+There, the parts are listed: 
+
+* StringIDGeneratorPart is a static string value - doesn't change
+* YearIDGeneratorPart inserts 4 digit current year
+* Another StringIDGeneratorPart provides the dot
+* NumericIDGeneratorPart just dumbly increments by 1 every time you use the ID generator to create a number. You can see it keeps track of current value. It doesn't roll back if you delete the record. Once it inserts the ID pattern in the record, even if you edit the pattern or change it, that current value in the ID generator stays the same, so the next time it will be that + 1
+
+=== Multi-segment ID generators
+Accession Number and some others have patterns with more than one NumericIDGeneratorPart segment.
+
+Only the final incrementing numeric segment ever actually increments automatically.
+
+Consensus is that we should probably remove these patterns from the application since they do not work as they suggest they should, however, it has not been identified as a high priority.
+
+=== Issue with year not updating in ID generators at new year
+
+This is https://collectionspace.atlassian.net/browse/DRYD-747[a long-standing known issue]. Given the cause (explained in the comments on the issue) we don't have a plan for any automatic fix, but we can manually update the stored data pattern state if necessary.
+
+
