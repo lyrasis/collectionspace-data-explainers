@@ -79,8 +79,100 @@ If you do this, you will see the variant term in your record, in exported data, 
 .Popup when hovering over use of variant form in record
 image::auth_ww_var_select_var_hover.png[942]
 
-We recommend configuring your CS instance to enforce the use of main terms only.
+
+**We recommend configuring your CS instance to enforce the use of main terms only.** See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record. 
 ====
 
+Searching for Person terms where display names contain "Prince" returns results showing only the main term:
+
+.Display of main term in search result for variant
+image::auth_ww_var_search.png[1370]
+
+== Maintenance functionality
+
+=== Changing display names
+You can change the value of a Display name in an authority record. When you save the authority record, all fields populated with that display name are updated behind the scenes to display the new value. Note that this can take a very long time if the display name has been used in large numbers of fields.
+
+=== Merging authorities
+This data update functionality is documented in the https://collectionspace.atlassian.net/wiki/spaces/COL/pages/905445377/User+Manual+Data+Updates+Merge+Authority+Items[CS User Manual].
+
+Note that you can only merge terms from the same authority vocabulary. That is, you cannot merge a Person/Local and a Person/ULAN term. Nor can you merge a Person/Local with an Organization/Local term. 
 
 == Data integrity, uniqueness, and batch data processing issues
+
+=== Reasoning for not allowing selection of variant terms for use in records
+
+* The point of authorities/controlled vocabularies is to establish one main form of name for each entity or concept, to maximize consistency in data. Allowing the assignment of variant names in records subverts the purpose of having authorities.
+* Currently, you cannot round-trip data using variant terms by exporting CSV data, making updates, and re-ingesting with the CSV Importer. The CSV Importer cannot match/insert variant names into CS records via batch processing. Adding the ability to do this is not currently on the roadmap for development.
+* In the "Used By" list for the authority term, you can see where variant forms have been used and see all uses of all forms of the term:
+
+.Uses of "Wonder Woman" authority term 
+image::auth_ww_used_by_var.png[1692]
+
+* However, if you search for acquisitions with "Wonder Woman" as acquisition source, there are zero results. Again, this is against the purpose of using authorities. Given that you can export from search results, but not the "Used by" list, this is especially limiting.
+
+.Searching for "Wonder Woman" does not retrieve uses of variant
+image::auth_ww_search_when_var_used.png[1692]
+
+* Use of variant forms in your records will introduce complications (or difficulties) in getting the desired results in reports, database queries, or applications leveraging the REST API.
+* [needs confirmation] If using the public browser, variant terms will facet differently/separately from the main terms. Again, this goes against the spirit of authorities, which are implemented in order to enforce data consistency
+* Having multiple forms of name for the same entity/concept in your data makes it more difficult than it already is to ensure the integrity of that data. The problems of non-unique name values multiplies when you must also take into account whether the same variant name appears in more than one record. 
+
+=== General issues with data integrity, uniqueness, and batch processing related to authorities
+
+CS does not enforce the uniqueness of terms in a given authority vocabulary (i.e. Local Persons). I can create:
+
+* Display name: Anonymous, Birth date: 1953
+* Display name: Anonymous, Birth date: 1846
+
+Under the hood, at the system data level, these names have separate, unique IDs of several different types:
+
+* Anonymous (1953)
+** refname: urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Anonymous1660670395850)'Anonymous'
+** CSID based API path: personauthorities/0f6cddfa-32ce-4c25-9b2f/items/31222b56-1f7a-4641-97c9
+* Anonymous (1846)
+** refname: urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Anonymous1660670413042)'Anonymous'
+** CSID based API path: personauthorities/0f6cddfa-32ce-4c25-9b2f/items/e0cfcded-c095-41d8-a849
+
+The refname is what is actually stored as the field values of records. This is how the system keeps the names separate. 
+
+==== Manual data entry in the application
+The user interface make it possible for a careful human entering data to differentiate between these two names and select the appropriate value when entering data by hovering over each entry in the search list to see more details:
+
+.Hovering over duplicate names for more details while entering data
+image::auth_dupe_search_hover.png[1926]
+
+However, it is also easy to select the wrong one if you are not very careful:
+
+.Data entry without hovering
+image::auth_dupe_search.png[508]
+
+==== Search
+You can't tell which is which without clicking into the records.
+
+.Duplicate terms are not differentiated in search results list
+image::auth_dupe_search_results_list.png[1832]
+
+==== Batch data ingest
+
+===== Non-unique names
+These names are problematic for batch ingest via the CSV Importer.
+
+It would be the opposite of user-friendly to expect folks to enter the refnames of terms into their CSV templates. 
+
+Instead, you prepare CSVs for ingest by entering the text of the Display name ("Anonymous") into the column for the target field.
+
+The ingest/mapping process does an exact/full match search for each name value via an API call to retrieve the refname identifier for the name.
+
+In the case of our two "Anonymous" names, two results come back and the automated mapping process has no idea which is correct. You will get a warning that it found more than one. It will go ahead and map to the first match for the name, but it's possible to get the wrong entities in your records this way. 
+
+===== Variant names
+
+Using variant names as values in records (i.e. Diana Prince as Acquisition source) is not supported by the CSV Importer at this time, and we do not currently have plans to implement support for this. 
+
+==== Migration
+
+Because migration processes are use batch data ingest tools, the data we migrate is under more constraints than data you might manually enter into CS:
+
+* We ensure the display name values of all authority terms in a given authority vocabulary are unique
+* Only main/primary/preferred display name values are used as values in your records.
