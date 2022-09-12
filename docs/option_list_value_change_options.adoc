@@ -1,0 +1,52 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Changing an existing static term list (option list) value: two approaches
+
+For discussing the two approaches, imagine you have a responsibleDepartment term which displays in the UI as "Media and Performance Art". You wish to change this value to "Media, Digital, and Performance Art".
+
+toc::[]
+
+== Fast/easier approach: change display value only
+
+This approach involves a minor UI configuration code change. It usually takes a few days to a week to implement. Much of this time is generally waiting for code review/merge/deployment.
+
+After this change is made, you will see "Media, Digital, and Performace Art" when viewing or entering data in the CollectionSpace (CS) application user interface (the webapp).
+
+If you only enter data into CS manually via the webapp, and if you do not need to use or interact with the data outside the webapp (see "Why care about the underlying data value?" section, this approach probably is sufficient.
+
+== Other approach: keep underlying data value consistent with display value
+
+If you use the CSV Importer or use/interact with your CS data as listed under "Why care about the underlying data value?", then this approach may be preferable.
+
+This approach will take longer because it will require two rounds of code review/merge/deployment. This approach will also require effort from you, as you will need to use the CSV Importer to perform a batch update of your existing data in between the rounds of code changes.
+
+The basic workflow is:
+
+* LYRASIS makes the following UI configuration changes:
+** Add a new term "Media, Digital, and Performance Art" (underlying data value: "media-digital-performance-art")
+** Change the display label for "media-performance-art" to "Media and Performance Art (deprecated, USE Media, Digital, and Performance Art)"
+* Client uses advanced search, record export, and CSV Importer to update all instances of "media-performance-art" to "media-digital-performance-art". Client notifies LYRASIS when this work is complete.
+* LYRASIS makes another UI configuration change to remove the "media-performance-art" value
+
+
+== Why care about the underlying data value?
+
+You may have to know, use, or see the underlying data value in the following situations:
+
+Using the CSV Importer to create or update values controlled by static term lists:: Because the CSV Importer updates the underlying data directly, it requires you to input the underlying data value "media-performance-art".
+Reports:: Reports pull data directly from the PostgreSQL database, which stores only the undelying data values. If a report includes the department value, you will see "media-performance-art" as the value in that report. If you are developing your own reports, see also the item for *Querying the PostgreSQL database*.
+Using the REST API:: The REST API interacts directly with the underlying data layer, which only knows the "media-performance-art" value. If you want to search for records with the "Media, Digital, and Performance Art" department via the API, you must construct the API call to search for "media-performance-art".
+Querying the PostgreSQL database:: The database stores the underlying data values. To construct a query including or excluding the "Media, Digital, and Performance Art" department as query criteria, you must use "media-performance-art" in your query.
+Potential future migration out of CS:: Whoever is performing such a migration may only have access to the underlying data values. If these do not match the values you expect to see in the data in the system, a migration could have unexpected results. 
+
