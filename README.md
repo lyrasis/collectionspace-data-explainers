@@ -1,5 +1,5 @@
-# collectionspace-migration-explainers
-Info on data functionality and tradeoffs in CollectionSpace for migration clients
+# collectionspace-data-explainers
+Info on data functionality and tradeoffs in CollectionSpace for migration and hosting clients
 
 After conducting a number of migrations from other systems into CollectionSpace, we find ourselves explaining the same details repeatedly in order to assist our clients in making data decisions and reviewing their data. 
 
