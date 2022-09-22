@@ -1,0 +1,40 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Valuation control procedures in relation to Objects and Loan procedures
+
+toc::[]
+
+How you will want to handle this depends on:
+
+Your needs:: What kinds of questions do you need to answer using your CollectionSpace (CS) data?
+Your resources for answering questions using your CS data:: Do you need to be able to get the information you need in the web application by pressing a button? Or can you write SQL to query the database to get specific information you might need, or could you script something that leverages the REST API to harvest the data you need?
+
+There are tradeoffs relationships between those dependencies:
+
+* If you have complex specific information needs, *and* need push-button web-app access to the information, then you will probably need more complex data entry practices to build all the relationships necessary to be accessible in the web app user interface (UI).
+* If you are able to query the database or script against the API, you can find sets of data to answer questions on the fly without having specifically created all the relationships in the UI.
+
+It is also important to be realistic about the resources you have available to document your data entry practices and maintain data consistency over time. If the data is not entered consistently, you will not be able to trust the info you get out of the system.
+
+[INFO]
+====
+* The relationships in the diagrams are numbered. This is only so I can refer to them. It does not indicate order of creation or importance or anything else meaningful
+* VC = Valuation control procedure
+====
+
+== Model 1
+
+.Diagram of Model 1
+image::loan_obj_val_model1.png[567]
++++&nbsp;+++
