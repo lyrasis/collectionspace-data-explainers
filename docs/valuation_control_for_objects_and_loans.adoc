@@ -27,14 +27,120 @@ There are tradeoffs relationships between those dependencies:
 
 It is also important to be realistic about the resources you have available to document your data entry practices and maintain data consistency over time. If the data is not entered consistently, you will not be able to trust the info you get out of the system.
 
-[INFO]
+[NOTE]
 ====
 * The relationships in the diagrams are numbered. This is only so I can refer to them. It does not indicate order of creation or importance or anything else meaningful
 * VC = Valuation control procedure
 ====
 
+== Set up/explanation of the situation
+
+Museum received 3 objects on loan in 2018. Valuation control procedures were used to record value of each object at the time of loan (let's say it was for insurance purposes).
+
+*The total value of the 3 objects at the time of loan was $200.*
+
+Objects 1 and 2 were eventually returned to the lender, but Museum still has Object 3 (how/why is unimportant here). The creator of Object 3 either became more super famous or died in 2021. The Museum had the object re-appraised in early 2022, and the result is recorded in VC3.2.
+
+*The total value of the 3 objects in 2022, based on the info we have, is $450.*
+
+== Reports referenced
+
+This page refers to two reports that are in development, and which will eventually be added to the base community-supported CSpace application.
+
+Object Valuation Report:: Documented in https://collectionspace.atlassian.net/wiki/spaces/COL/pages/2672361473/Report+Details+Object+Valuation+DRAFT+WORK+IN+PROGRESS[the CS Report Repository]. This report runs on a list of selected objects (search results list or list of objects related to a procedure). It gives you a spreadsheet with some very basic identifying info about each object, and information from the most recent valuation control procedure related to each object. 
+
+Related Object Valuation Report:: This is not as far along in development and is not yet documented. It will be runnable from any procdure (Loan, Group, etc.) that can be related to objects, *or* from a selected list of such procedures. First it finds the list of all the objects related to the selected procedure(s). Then it produces the *Object Valuation Report* described above for all those objects.
+
 == Model 1
+If you do not have a need to produce historical "value at time of loan" data, this is the simplest and most straightforward model.
+
+.Data entry
+* Each loaned object is linked to the loan procedure (r1-r3)
+* Each item-level valuation control procedure is linked to its object (r4-r7)
 
 .Diagram of Model 1
 image::loan_obj_val_model1.png[567]
 +++&nbsp;+++
+
+.Discussion
+* You can easily use the web app UI to view valuation control procedures for each object
+* There is no way in the UI to hop to a list of VC procedures for objects related to the loan, from the loan record.
+* In the web app UI, you can go to LoanIn 1, open the Related Objects screen, select all, and run the Object Valuation Report
+** This produces a spreadsheet that will allow you to calculate the total value as $450
+** Given that this was *not* the value of the objects associated with the loan, _at the time of the loan_, this may or may not be acceptable
+** If you can write SQL, and if you have used a valuation type "Loan-in Insurance value" in VC 1.1, 2.1, and 3.1, you can produce the value at the time of loan. It is also possible to achieve this via a series of calls to the REST API performed with a script (but the database query will run *much* faster)
+** If you have not used a loan-specific valuation type in the VC records, you might be able to match on VC records from the same year as the loan (keeping in mind it is unlikely the exact same day dates would be in the loan and VC record for matching)
+* If you know for sure you never (and will never) attach subsequent VC procedures to loaned objects---i.e. the loan-associated VC will always be the only VC for a loaned object---then this is likely sufficient
+
+
+== Model 2
+If you need to produce historical "value at time of loan" data, this is the simplest and most straightforward model.
+
+.Data entry
+* Each loaned object is linked to the loan procedure (r1-r3)
+* Each item-level valuation control procedure is linked to its object (r4-r7)
+* A separate VC procedure is created to represent to total value of objects in the loan
+* This separate VC is related to the loan (r8)
+
+.Diagram of Model 2
+image::loan_obj_val_model2.png[677]
++++&nbsp;+++
+
+.Discussion
+* Everything from Model 1 is still true, BUT...
+* In the UI, you can go to LoanIn1, open related Valuation Controls, and quickly see that the value assigned to the loan in 2018 was $200
+* You need to remember not to use the built in Related/Object Valuation reports to get at the historical "at time of loan" value info
+
+== Model 3
+
+WARNING: This is *not* recommended, for reasons outlined below
+
+.Data entry
+* Same as Model 2, AND...
+* The VC for the loan is also linked to each object in the loan (r9-r11)
+
+.Diagram of Model 3
+image::loan_obj_val_model3.png[677]
++++&nbsp;+++
+
+.Discussion
+* Since you already have item level VCs for each object it is extra, unnecessary work to create r9-r11
+* Creating these relationships also means running the built in Related/Object Valuation reports will return weird values due to the fact that these reports return data from the most recent VC record related to an object. I have added day-specific dates to illustrate how this could go awry:
+
+....
+| ObjNum | VC Id   |    VC date | rel_objs | value amount | calc value |
+|--------+---------+------------+----------+--------------+------------|
+| Obj 1  | VC 1.1  | 2018-06-13 |        1 |          100 |        100 |
+| Obj 2  | VC LI 1 | 2018-06-12 |        3 |          200 |      66.67 |
+| Obj 3  | VC 3.2  | 2022-03-10 |        1 |          300 |        300 |
+....
+
+What's going on with Obj 2? The most recent VC related to it is VC LI 1. This VC is related to 3 objects, so the report calculates and returns the average value per object. (It does let you filter to objects related to VCs related to more than one object, so you can tell which are calculated values). 
+
+This is clearly a bad idea since we have item level VCs for our objects, but if we do not have those, Model 4 might be the desirable option.
+
+== Model 4
+
+If you do not have valuations for each item in a loan, this may be the way...
+
+.Data entry
+* In 2018, we only had a group-level estimated value for all the objects in the loan, so VC LI 1 is created. 
+* VC LI 1 is linked to the loan (r8) and each object included in its aggregate value estimate (r9-11)
+* VC 3.2 is created later with the current value of Obj 3, and linked only to that object (r7)
+
+.Diagram of Model 4
+image::loan_obj_val_model4.png[547]
++++&nbsp;+++
+
+.Discussion
+* You can still easily see in the UI that the value of the loaned objects in 2018 was $200
+* Running the built in Related/Object Valuation reports in late 2022 will return:
+
+....
+| ObjNum | VC Id   |    VC date | rel_objs | value amount | calc value |
+|--------+---------+------------+----------+--------------+------------|
+| Obj 1  | VC LI 1 | 2018-06-12 |        3 |          200 |      66.67 |
+| Obj 2  | VC LI 1 | 2018-06-12 |        3 |          200 |      66.67 |
+| Obj 3  | VC 3.2  | 2022-03-10 |        1 |          300 |        300 |
+....
+
