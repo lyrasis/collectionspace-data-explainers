@@ -13,6 +13,8 @@ endif::[]
 
 = Valuation control procedures in relation to Objects and Loan procedures
 
+NOTE: This page specifically discusses Valuation Control procedures and Objects in the context of a related Loan procedure, but you can conceptually substitute an Acquisition, Condition Check, or any other procedure instead of Loan
+
 toc::[]
 
 How you will want to handle this depends on:
