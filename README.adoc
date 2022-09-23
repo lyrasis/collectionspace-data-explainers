@@ -1,0 +1,16 @@
+= CollectionSpace data explainers
+
+This documentation focuses in depth on how data behaves and can be used in CollectionSpace.
+
+The primary audience for this documentation is folks at institutions migrating into CollectionSpace, who need to make informed decisions about how to migrate data into CS.  
+
+Information is added to this site in response to actual client questions in the process of LYRASIS custom migrations into CS.
+
+IMPORTANT: Since this documentation is being developed and primarily used in the context of custom migrations into LYRASIS-hosted CollectionSpace instances, some information here may be specific to LYRASIS' architecture and instance configuration setup.
+
+== Other documentation and resources
+
+* https://collectionspace.atlassian.net/wiki/spaces/COL/pages/536379393/CollectionSpace+User+Manual[CollectionSpace User Manual] is more focused on how to use features of the web application.
+* https://collectionspace.atlassian.net/wiki/spaces/COL/pages/2271936513/User+Manual%3A+CollectionSpace+CSV+Importer[CollectionSpace CSV Importer User Manual] focuses on how to use that tool
+* https://github.com/lyrasis/collectionspace-sql[collectionspace-sql Github repository] -- a collection of SQL queries and snippets, useful if you request read access to your database 
+
