@@ -115,7 +115,7 @@ image::loan_obj_val_model3.png[677]
 | Obj 3  | VC 3.2  | 2022-03-10 |        1 |          300 |        300 |
 ....
 
-What's going on with Obj 2? The most recent VC related to it is VC LI 1. This VC is related to 3 objects, so the report calculates and returns the average value per object. (It does let you filter to objects related to VCs related to more than one object, so you can tell which are calculated values). 
+What's going on with Obj 2? The most recent VC related to it is VC LI 1. This VC is related to 3 objects, so the report calculates and returns the average value per object.
 
 This is clearly a bad idea since we have item level VCs for our objects, but if we do not have those, Model 4 might be the desirable option.
 
