@@ -17,7 +17,9 @@ toc::[]
 == Key points
 
 * Storage location authority terms are used to populate the `Current location > Location` and `Normal location` fields for the Location/Movement/Inventory (LMI) procedure in CS
-* There are two Storage Location authorities: Local and Offsite. More on these below.
+** In the Local History and Material Culture domain profile, these fields are renamed `Home location/building` and `Temp location/building`
+** In the Botanical Garden domain profile, the main location field is renamed `Garden location` field, and there is no normal or home location field.
+* There are two Storage Location authority vocabularies: Local and Offsite. More on these below.
 * We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
 * Organization authority terms can also be used to populate location fields in the LMI procedure.
 * Like all authority terms, Storage locations can be https://collectionspace.atlassian.net/wiki/spaces/COL/pages/546013229/User+Manual+Creating+Authority+Hierarchies[organized in a hierarchy]. See https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
@@ -127,7 +129,7 @@ Maybe the following would work:
 
 Is there a way you can shorten locations in a consistent way, that will still be meaningful and easy to use for you? This can be a big benefit for viewing these values within the application.
 
-If location names are very long, you may not see the end of the value in the display without clicking into the field. 
+If location names are very long, you may not see the end of the value in the display without clicking into the field.
 
 The following is a most extreme shortening example, but this sort of thing has worked for clients in the past, and there are ways to make things briefer without being quite as cryptic:
 
