@@ -1,0 +1,29 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Object location, Location/movement/inventory (LMI) procedure, and Storage location authority
+
+See also:
+
+* xref:[location_authority.adoc,Storage Location authority info and decisions]
+
+toc::[]
+
+== Key points
+
+* Location information for an object is not recorded directly in the Object record.
+* The Location/movement/inventory (LMI) procedure is used to record information about:
+** the location of an object or objects
+** if the location has changed, information about the movement of the object(s)
+** if location is checked and recorded as part of an inventory task, information about the inventory
+* Relationships must be created between the LMI procedure and the object(s) whose location it describes
+* If an object is related to one or more LMI procedures, the current location field value from the most recent related LMI procedure is displayed in the object record as `Computed current location`. You can also search for objects by their `Computed current location` value.

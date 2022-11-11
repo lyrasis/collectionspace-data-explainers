@@ -12,13 +12,16 @@ endif::[]
 
 = Storage Location authority info and decisions
 
+See also:
+
+* xref: [object_locations_lmi.adoc,Object location, Location/movement/inventory (LMI) procedure, and Storage location authority]
+
+
 toc::[]
 
 == Key points
 
-* Storage location authority terms are used to populate the `Current location > Location` and `Normal location` fields for the Location/Movement/Inventory (LMI) procedure in CS
-** In the Local History and Material Culture domain profile, these fields are renamed `Home location/building` and `Temp location/building`
-** In the Botanical Garden domain profile, the main location field is renamed `Garden location` field, and there is no normal or home location field.
+* Storage location authority terms are used to populate the location field(s) for the Location/Movement/Inventory (LMI) procedure in CS
 * There are two Storage Location authority vocabularies: Local and Offsite. More on these below.
 * We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
 * Organization authority terms can also be used to populate location fields in the LMI procedure.
