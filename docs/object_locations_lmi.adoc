@@ -14,7 +14,7 @@ endif::[]
 
 See also:
 
-* xref:[location_authority.adoc,Storage Location authority info and decisions]
+* xref:location_authority.adoc[Storage Location authority info and decisions]
 
 toc::[]
 

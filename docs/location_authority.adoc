@@ -14,7 +14,7 @@ endif::[]
 
 See also:
 
-* xref: [object_locations_lmi.adoc,Object location, Location/movement/inventory (LMI) procedure, and Storage location authority]
+* xref:object_locations_lmi.adoc[Object location, Location/movement/inventory (LMI) procedure, and Storage location authority]
 
 
 toc::[]
