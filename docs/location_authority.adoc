@@ -168,6 +168,9 @@ Taking this approach, the longer form could optionally be mapped into the locati
 
 This field lets you specify the type of location: room, building, drawer, shelf, etc.
 
+image::location_type.png[360]
++++&nbsp;+++
+
 Depending on the legacy data source, this data may exist in a cleanly mappable way. Or, we may be able to do a kind of simple mapping based on the last segment of the location name. For example, if the last segment contains "room" or "rm", assign "room".
 
 You can easily add your own Location Type values under `Tools > Term Lists > Location Type`.
@@ -179,7 +182,7 @@ During location cleanup/review, you have the option to add or change location ty
 It is one thing to batch migrate all data in via a consistent process, however:
 
 * Is this something you imagine yourself consistently populating when you add new locations going forward? If not, do you want it in the migrated data?
-* If it is set via a "dumb" mapping based on text in the location name, does it add anything useful to know that "Room 7" is a room? Do you expect to use this field for searching/filtering/reporting? If not, maybe it is not important for you?
+* If it is set via a "dumb" mapping based on text in the location name, does it add anything useful to know that "Room 7" is a room? Do you expect to use this field for searching/filtering/reporting?footnote:[In the application UI, you can currently only search on this field when conducting a search for Storage Location terms. That is, you can retrieve Storage Locations that are Shelves. You cannot currently do things like search for objects in locations where the storage location type = "Shelf"] If not, maybe it is not important for you?
 
 === How to handle crates/boxes/containers
 
