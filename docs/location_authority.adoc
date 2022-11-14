@@ -8,6 +8,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-data-explainers/main/img
 endif::[]
 
 = Storage Location authority info and decisions
@@ -37,6 +38,11 @@ However, we have had clients who didn't see the need for it, given the informati
 We tend to default to creating a hierarchy if we have the necessary data available, but if you don't want it, just let us know.
 
 === Which Storage Location authority vocabulary should each location term be assigned to?
+
+CS allows you to create authorized terms for storage locations in two separate vocabularies: local and offsite:
+
+image::authorities_create_new.png[354]
++++&nbsp;+++
 
 Your legacy system may have the following location values:
 
