@@ -1,0 +1,80 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Controlled vocabulary types
+
+Some fields in CollectionSpace (CS) are controlled. That is, you can only populate them using terms/values that are already established in a controlled vocabulary.
+
+This page describes the three types of controlled vocabularies in CS.
+
+toc::[]
+
+== The three types of controlled vocabulary
+
+=== Authorities
+
+See also: https://collectionspace.atlassian.net/wiki/spaces/COL/pages/536379393/CollectionSpace+User+Manual[CS User Manual sections on Authorities]
+
+Examples: Person, Storage Location
+
+* Separate record per term
+* Record has lots of fields relevant to the type of term
+* Authority terms are grouped into separate *_authority vocabularies_*, e.g. Person - Local, Person - ULAN, Storage Location - Local, Storage Location - Offsite
+** The fields available in an authority record are defined at the authority level. That is, Person - Local and Person - ULAN do not differ in terms of the fields available for describing the term
+* Very large numbers of terms can be managed as authorities
+* Supports recording/managing variant forms of a term
+* Users with a sufficient level of permissions can create, edit, and delete authority records in the CS web application
+* You can search for and export data from authorities in the CS web application
+* Hierarchical relationships can be created between authority terms in the same authority vocabulary
+* The https://collectionspace.atlassian.net/wiki/spaces/COL/pages/905445377/User+Manual+Data+Updates+Merge+Authority+Items[Merge Authority Items data update] merges two authority terms from the same authority vocabulary. All reference to the source term are transferred to the target term.
+* A given field may be controlled by one or more authority vocabularies (examples from Core/Common profile):
+** Acquisition Authorizer field controlled by Person - Local. (Person - ULAN terms cannot be used here)
+** Acquisition Funding source field controlled by Person - Local and Organization - Local
+
+=== Term lists
+
+AKA: vocabulary (not "authority vocabulary"), dynamic term list
+
+See also: https://collectionspace.atlassian.net/wiki/spaces/COL/pages/538312706/User+Manual+Term+List+Management[CS User Manual: Term List Management]
+
+* Limited number of terms
+* Limited number of fields for each term. In addition to the term name, you can record description, source, source page, and status.
+* Users with a sufficient level of permissions can create, edit, and delete terms in the CS web application
+* A given term list may be used to control several different fields, but a given field can only be controlled by one term list
+
+=== Option lists
+
+AKA: static term list
+
+* Even more limited number of terms
+* The only data recorded is an underlying data value (this is actually stored in the underlying records) and a display label for the data value (this is what you see in your records in the web application)
+* Defined in your CS instance's UI configuration
+* For Lyrasis hosted clients, you must put in a Zendesk ticket requesting additions/changes to these. We will ask xref:option_list_value_change_options.adoc[which approach you want to take for any changes]. The faster/easier approach can take a week or longer, since multiple people are involved in changing your UI configuration code, reviewing and merging those changes, and redeploying your CS instance.
+
+== FAQ
+
+=== Can I change an option list-controlled field to a term list or authority-controlled field?
+
+Unfortunately, no. The field data stored under the hood is different, depending on the type of controlled vocabulary.
+
+If you switched Object Responsible department field to be controlled by a term list, the option list data currently in your records would be invalid.
+
+Changing the type of authority control on a field in a safe way typically requires:
+
+* defining a new field with the desired authority control type
+* migrate data from the old field to the new field
+* removing or permanently hiding the old field from your instance
+
+If you are running your own CS instance, you can customize such things, but doing so can significantly complicate your future upgrade/maintenance path.
+
+We do not offer this type of customization for Lyrasis-hosted CS clients, as it is unsustainable to support.
