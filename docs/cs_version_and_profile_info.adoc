@@ -1,0 +1,33 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Your CollectionSpace version and profile
+
+Log into your CS instance.
+
+Look at the bottom right corner of any screen and you will see something like:
+
+....
+Release 6.1
+UI version 5.0.0
+....
+
+The above indicates your CS application version is 6.1. There is no profile listed, so you have the "core" profile.
+
+....
+Release 7.0
+UI version 6.0.0
+Fine and Contemporary Art profile version 4.0.0
+....
+
+The above indicates your CS application version is 7.0. You have the Fine and Contemporary Art (fcart) profile.
