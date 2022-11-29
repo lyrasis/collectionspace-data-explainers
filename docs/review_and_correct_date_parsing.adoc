@@ -57,20 +57,6 @@ The fix for these is to either:
 
 === Strategies for identifying
 ==== Use CSV Importer reports
-
-
-
-== Unexpected date parsing
-
-Here, the details in the date mini-form are populated, but may not have been populated as expected.
-
-Example: if you enter Acquisition date "11/28/22", the year will be parsed as the year 22 C.E., and your searches for acquisitions from 2022 will not include this record.
-
-This issue is trickier to identify. Having general familiarity with your data and expected/reasonable date values for your collections will help.
-
-== How to identify unparsed dates
-=== For a specific batch ingest via CSV Importer
-
 If any of your dates were unparseable, you will see the message: "One or more records has warning: unparseable_structured_date" when the Processing step is complete.
 
 image::date_parse_warning.png[536]
@@ -78,7 +64,7 @@ image::date_parse_warning.png[536]
 
 Both the processing report and the full report generated after record transfer indicate exactly which structured date values could not be parsed. Limit to rows where the `WARN: unparseable_structured_date` column is not empty.
 
-=== In migrations
+==== In migrations
 
 The migration tooling we use generates the same warnings and similar reports as the CSV Importer.
 
@@ -86,14 +72,14 @@ If a large number of dates are unparsable due to a pattern we can correct in the
 
 Otherwise your Migration Specialist will typically add these reports to Post-migration cleanup task list in your migration Basecamp project for you to handle after the migration is complete.
 
-=== Query in application - specific field
+==== Query in application - specific field
 
 Here we search for all Object production dates where there is a display date value, but date details were not computed:
 
 image::structured_date_unparsed_query.png[1038]
 +++&nbsp;+++
 
-=== Query in application - batch imported dates only
+==== Query in application - batch imported dates only
 
 This query will find unparseable dates in any field, but only if the date data was loaded:
 
@@ -105,8 +91,13 @@ image::structured_date_unparsed_query_batch.png[1634]
 
 Reviewing these may be more time-consuming, as you do not have any indication which structured date field(s) in the object records are affected.
 
-== How to review dates for unexpected parsing
-Having general familiarity with your data and expected/reasonable date values for your collections will help. This work is best done on one structured date field at a time.
+== Unexpected date parsing
+
+Here, the details in the date mini-form are populated, but may not have been populated as expected.
+
+Example: if you enter Acquisition date "11/28/22", the year will be parsed as the year 22 C.E., and your searches for acquisitions from 2022 will not include this record.
+
+This issue is trickier to identify. Having general familiarity with your data and expected/reasonable date values for your collections will help.
 
 === Targeted search checks
 This is where your specific data knowledge will be invaluable.
