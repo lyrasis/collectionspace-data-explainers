@@ -17,11 +17,19 @@ toc::[]
 
 This page covers how to export data from CollectionSpace (CS) to review structured date parsing.
 
-NOTE: Structured date fields are the ones where clicking on the value causes a mini-form with detailed date fields to pop up. Object Production Date is one example. Non-structured date fields allow you to type in a date or select one from a calendar widget, but never show you any detailed date fields.
+[TIP]
+====
+Structured date fields pop up this mini-form when you edit them:
+
+image::structured_date_ui.png[1340]
++++&nbsp;+++
+
+Starting with CollectionSpace 7.1, there is a CSV listing all structured date fields in all record types in all profiles in https://github.com/collectionspace/cspace-config-untangler/tree/main/data/reference[the `data/reference` directory], in the directory for the xref:cs_version_and_profile_info.adoc[release version].
+====
 
 Date data is notoriously inconsistent, ambiguous, and messy.
 
-Every application has to make some assumptions and decisions about how to handle dates, that may or may not match up with user expectations of how dates should be handled. CollectionSpace (CS) is no different.
+Every application has to make some assumptions and decisions about how to handle dates. These assumptions may or may not match up with user expectations of how dates should be handled. CollectionSpace (CS) is no different.
 
 The best reference for understanding how CS derives the detailed date fields for a structured date field value (like Object Production Date) is https://github.com/collectionspace/services/blob/master/services/structureddate/structureddate/src/test/resources/test-dates.yaml[the application's date processing test data].
 
@@ -38,46 +46,39 @@ It is recommended batch imported/migrated date data be reviewed to ensure dates 
 The processing reports produced by the CSV Importer and our migration ingest tooling include warnings on all structured dates that could not be parsed into date details.
 ====
 
-== How to identify and review date parsing issues
-=== For a specific batch ingest
+== Dates that are not parsed
 
-==== CSV Importer
+The details in the date mini-form could not be populated for a given date value, which may impact searching or sorting on date values.
 
-When the Processing step is complete, you will see the message: "One or more records has warning: unparseable_structured_date".
+The fix for these is to either:
+
+* manually populate the date details in the mini-form; OR
+* enter the date in a format that the application can parse
+
+=== Strategies for identifying
+==== Use CSV Importer reports
+
+
+
+== Unexpected date parsing
+
+Here, the details in the date mini-form are populated, but may not have been populated as expected.
+
+Example: if you enter Acquisition date "11/28/22", the year will be parsed as the year 22 C.E., and your searches for acquisitions from 2022 will not include this record.
+
+This issue is trickier to identify. Having general familiarity with your data and expected/reasonable date values for your collections will help.
+
+== How to identify unparsed dates
+=== For a specific batch ingest via CSV Importer
+
+If any of your dates were unparseable, you will see the message: "One or more records has warning: unparseable_structured_date" when the Processing step is complete.
 
 image::date_parse_warning.png[536]
 +++&nbsp;+++
 
-.To review before transferring records to CS
-[TIP]
-====
-If you want to review and potentially fix unparseable dates before transferring the records to CS:
+Both the processing report and the full report generated after record transfer indicate exactly which structured date values could not be parsed. Limit to rows where the `WARN: unparseable_structured_date` column is not empty.
 
-* Download the processing report
-* Limit to rows with values in `WARN: unparseable_structured_date` column
-====
-
-.To review after transferring record to CS
-[TIP]
-====
-If you want to review and potentially fix unparseable dates after transferring the records to CS:
-
-* Don't download the processing report unless you have other warnings to check out
-* Transfer your records
-* Download the full report once transferring is complete.
-* Limit to rows with values in `WARN: unparseable_structured_date` column
-* Copy the `XFER_uri` column to a new column called `record_link`
-* Use find/replace to change the services API links to application record form links. There is a pattern to the links, but the exact changes will be specific to your CS instance:
-** core.dev
-*** API: http://core.dev.collectionspace.org/cspace-services/collectionobjects/fbf7485d-62ae-4365-a964
-*** App: https://core.dev.collectionspace.org/cspace/core/record/collectionobject/fbf7485d-62ae-4365-a964
-** Museum X - Lyrasis-hosted
-*** API: http://musx.collectionspace.org/cspace-services/collectionobjects/fbf7485d-62ae-4365-a964
-*** App: https://musx.collectionspace.org/cspace/musx/record/collectionobject/fbf7485d-62ae-4365-a964
-* Copy values from the `record_link` column into your browser to jump directly to the affected records
-====
-
-==== In migrations
+=== In migrations
 
 The migration tooling we use generates the same warnings and similar reports as the CSV Importer.
 
@@ -85,23 +86,42 @@ If a large number of dates are unparsable due to a pattern we can correct in the
 
 Otherwise your Migration Specialist will typically add these reports to Post-migration cleanup task list in your migration Basecamp project for you to handle after the migration is complete.
 
-== Batch ingests, general
+=== Query in application - specific field
 
-IMPORTANT: This section applies to data ingested after mid-October 2022.
+Here we search for all Object production dates where there is a display date value, but date details were not computed:
 
-If you do not wish to deal with unparsed dates in batch-ingested data with every single batch ingested, you can do it periodially in CS.
-
-TIP: This process works best if you review data in one structured date field at a time. In our example, we'll look at Object production date.
-
-
-The CSV Importer and migration tooling began warning about unparseable structured dates in mid-October 2022.
-If you used the CSV Importer prior to this, or your migration was done before this, you may want to review your CS data for date issues.
-
-== What fields are structured dates?
-
-Date fields that pop up this mini-form when you edit them:
-
-image::structured_date_ui.png[1340]
+image::structured_date_unparsed_query.png[1038]
 +++&nbsp;+++
 
-Starting with CollectionSpace 7.1, there is a CSV listing all structured date fields in all record types in all profiles in https://github.com/collectionspace/cspace-config-untangler/tree/main/data/reference[the `data/reference` directory], in the directory for the xref:cs_version_and_profile_info.adoc[release version].
+=== Query in application - batch imported dates only
+
+This query will find unparseable dates in any field, but only if the date data was loaded:
+
+* via batch import (CSV Importer or migration process); AND
+* after mid-October 2022
+
+image::structured_date_unparsed_query_batch.png[1634]
++++&nbsp;+++
+
+Reviewing these may be more time-consuming, as you do not have any indication which structured date field(s) in the object records are affected.
+
+== How to review dates for unexpected parsing
+Having general familiarity with your data and expected/reasonable date values for your collections will help. This work is best done on one structured date field at a time.
+
+=== Targeted search checks
+This is where your specific data knowledge will be invaluable.
+
+If you know that the oldest object in your collection is from 1782, you might check:
+
+image::structured_date_unparsed_query_yr_less_than.png[1634]
++++&nbsp;+++
+
+You could do the same search, but on Acquisition records and the Acquisition date field if you know when your earliest acquisitions were.
+
+=== Date data export and review
+
+Currently the application does not support exporting the values of the date details fields from the user interface.
+
+If you have read/query access to your CS database, see https://github.com/lyrasis/collectionspace-sql/blob/main/reports/structured_date_field_data.adoc[collectionspace-sql queries for reporting structured date data] for example queries.
+
+If you do not have read/query access to to your CS database, and you are Lyrasis-hosted, you can request a date data report via Zendesk. Let us know what fields (in what records) you want reports for.
