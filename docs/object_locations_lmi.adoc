@@ -22,18 +22,15 @@ toc::[]
 == Key points
 
 * Location information for an object is not recorded directly in the Object record.
-* The Location/movement/inventory (LMI) procedure is used to record information about:
-** the location of an object or objects
-** if the location has changed, information about the movement of the object(s)
-** if location is checked and recorded as part of an inventory task, information about the inventory
-* Relationships must be created between the LMI procedure and the object(s) whose location it describes
-* If an object is related to one or more LMI procedures, the current location field value from the most recent related LMI procedure is displayed in the object record as `Computed current location`. You can also search for objects by their `Computed current location` value.
+* The Location/movement/inventory (LMI) procedure records information about the _procedure_ or _process_ of identifying/assigning the location of an object or objects, moving an object or objects, and/or conducting an inventory of an object or objects.
+* Relationships must be created between the LMI procedure and the object(s) whose location or movement it describes
+* If an object is related to one or more LMI procedures, the currentLocation field value from the most recent related LMI procedure is displayed in the object record as `Computed current location`. You can also search for objects by their `Computed current location` value.
 
 == LMI location fields
 
 These fields are populated with values from either of the Storage Location authorities (local or offsite), or the local Organization authority.
 
-In the Public Art domain profile (and Fine and Contemporary Art starting with CS 7.2) you can also use terms from the local Place authority in these fields.
+In the Public Art domain profile (and Fine and Contemporary Art (FCART) starting with CS 7.2) you can also use terms from the local Place authority in these fields.
 
 In the Botanical Garden domain profile, only terms from local Storage Location and local Organization authorities can be used.
 
@@ -48,7 +45,7 @@ In general:
 
 Exceptions:
 
-* Local history & material culture profile
+* Local history & material culture (LHMC) profile
 ** Labeled: "Temp location/building"
 * Botanical garden profile
 ** Labeled: "Garden location"
@@ -63,7 +60,7 @@ In general:
 
 Exceptions:
 
-* Local history & material culture profile
+* Local history & material culture (LHMC) profile
 ** Labeled: "Home location/building"
 * Botanical garden profile
-** Not included
+** Not included in record
