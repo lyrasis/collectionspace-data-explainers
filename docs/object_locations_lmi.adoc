@@ -8,6 +8,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
 endif::[]
 
 = Object location, Location/movement/inventory (LMI) procedure, and Storage location authority
@@ -25,6 +26,134 @@ toc::[]
 * The Location/movement/inventory (LMI) procedure records information about the _procedure_ or _process_ of identifying/assigning the location of an object or objects, moving an object or objects, and/or conducting an inventory of an object or objects.
 * Relationships must be created between the LMI procedure and the object(s) whose location or movement it describes
 * If an object is related to one or more LMI procedures, the currentLocation field value from the most recent related LMI procedure is displayed in the object record as `Computed current location`. You can also search for objects by their `Computed current location` value.
+
+== Examples
+=== Single object, single LMI
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2020.1.27
+  Current location: Storage room C
+  Location date: 2021-11-01
+  Updated: 2021-11-01 20:04:39`"]
+end
+subgraph obj [Objects]
+  OBJ1["IN2020.30"]
+end
+SL1-->LMI1
+OBJ1<-->LMI1
+----
+
+image::obj_lmi_1.png[1920]
++++&nbsp;+++
+
+=== Single object, multiple LMIs
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2020.1.27
+  Current location: Storage room C
+  Location date: 2021-11-01
+  Updated: 2021-11-01 20:04:39`"]
+
+  LMI2["`LOC2022.5.14
+  Current location: Storage room E
+  Location date: 2022-05-02
+  Updated: 2023-06-14 17:51:20`"]
+end
+subgraph obj [Objects]
+  OBJ1["IN2020.30"]
+end
+SL1-->LMI1
+SL2-->LMI2
+OBJ1<-->LMI1
+OBJ1<-->LMI2
+----
+
+image::obj_lmi_2.png[2786]
++++&nbsp;+++
+
+=== Multiple objects, single LMI
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2020.1.27
+  Current location: Storage room C
+  Location date: 2021-11-01
+  Updated: 2021-11-01 20:04:39`"]
+end
+subgraph obj [Objects]
+  OBJ1["IN2020.30"]
+  OBJ2["IN2020.56"]
+end
+SL1-->LMI1
+OBJ1<-->LMI1
+OBJ2<-->LMI1
+----
+
+*The _Computed current location_ field in _IN2020.30_ is _Storage room C_*
+
+*The _Computed current location_ field in _IN2020.56_ is _Storage room C_*
+
+
+=== Multiple objects, multiple LMIs
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2020.1.27
+  Current location: Storage room C
+  Location date: 2021-11-01
+  Updated: 2021-11-01 20:04:39`"]
+
+  LMI2["`LOC2022.5.14
+  Current location: Storage room E
+  Location date: 2022-05-02
+  Updated: 2023-06-14 17:51:20`"]
+end
+subgraph obj [Objects]
+  OBJ1["IN2020.30"]
+  OBJ2["IN2020.56"]
+end
+SL1-->LMI1
+SL2-->LMI2
+OBJ1<-->LMI1
+OBJ2<-->LMI1
+OBJ1<-->LMI2
+----
+
+*The _Computed current location_ field in _IN2020.30_ is _Storage room E_*
+
+*The _Computed current location_ field in _IN2020.56_ is _Storage room C_*
 
 == LMI location fields
 
@@ -64,3 +193,202 @@ Exceptions:
 ** Labeled: "Home location/building"
 * Botanical garden profile
 ** Not included in record
+
+
+== More detailed examples/tests of how _Current computed location_ gets set
+
+=== One LMI, no location date
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2023.6.01
+  Current location: Storage room C
+  Location date: blank
+  Updated: 2023-06-14 18:13:38`"]
+end
+subgraph obj [Objects]
+  OBJ1["2023.1.1"]
+end
+SL1-->LMI1
+OBJ1<-->LMI1
+----
+
+If there is only one related LMI, that LMI's _Current location_ becomes the object's _Computed current location_.
+
+_Computed current location_ = _Storage room C_
+
+=== Two LMIs, older has location date, newer does not
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2023.6.01
+  Current location: Storage room C
+  Location date: 2023-06-01
+  Updated: 2023-06-14 18:33:01`"]
+
+  LMI2["`LOC2023.6.02
+  Current location: Storage room E
+  Location date: blank
+  Updated: 2023-06-14 18:34:05`"]
+end
+subgraph obj [Objects]
+  OBJ1["2023.1.1"]
+end
+SL1-->LMI1
+SL2-->LMI2
+OBJ1<-->LMI1
+OBJ1<-->LMI2
+----
+
+LOC2023.6.01 has a location date, but LOC2023.6.02 was more recently updated.
+
+LOC2023.6.02 has no location date but was updated more recently than LOC2023.6.01.
+
+LMIs with _Location date_ values win over those that don't.
+
+_Computed current location_ = _Storage room C_
+
+=== Two LMIs with loc dates, older loc date is newer record
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2023.6.01
+  Current location: Storage room C
+  Location date: 2023-06-12
+  Updated: 2023-06-14 18:39:14`"]
+
+  LMI2["`LOC2023.6.02
+  Current location: Storage room E
+  Location date: 2023-06-02
+  Updated: 2023-06-14 18:39:51`"]
+end
+subgraph obj [Objects]
+  OBJ1["2023.1.1"]
+end
+SL1-->LMI1
+SL2-->LMI2
+OBJ1<-->LMI1
+OBJ1<-->LMI2
+----
+
+LOC2023.6.01 has a more recent location date, but LOC2023.6.02 was more recently updated.
+
+Most recent _Location date_ value wins.
+
+_Computed current location_ = _Storage room C_
+
+=== Two LMIs with same loc date
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+  SL3["Storage room D"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2023.6.01
+  Current location: Storage room C
+  Location date: 2023-06-12
+  Updated: 2023-06-14 19:05:42`"]
+
+  LMI2["`LOC2023.6.02
+  Current location: Storage room E
+  Location date: 2023-06-02
+  Updated: 2023-06-14 18:39:51`"]
+
+  LMI3["`INV2023.6.03
+  Current location: Storage room D
+  Location date: 2023-06-12
+  Updated: 2023-06-14 19:04:49`"]
+end
+subgraph obj [Objects]
+  OBJ1["2023.1.1"]
+end
+SL1-->LMI1
+SL2-->LMI2
+SL3-->LMI3
+OBJ1<-->LMI1
+OBJ1<-->LMI2
+OBJ1<-->LMI3
+----
+
+LOC2023.6.01 and INV2023.6.03 have the same location date, but LOC2023.6.01 was more recently updated.
+
+The LMI with the most recent _Location date_ value, with update timestamp used as a tie-breaker, wins.
+
+_Computed current location_ = _Storage room C_
+
+=== Three LMIs, none having loc date
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+  SL2["Storage room E"]
+  SL3["Storage room D"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2023.6.01
+  Current location: Storage room C
+  Location date: blank
+  Updated: 2023-06-14 18:52:10`"]
+
+  LMI2["`LOC2023.6.02
+  Current location: Storage room E
+  Location date: blank
+  Updated: 2023-06-14 18:54:26`"]
+
+  LMI3["`INV2023.6.03
+  Current location: Storage room D
+  Location date: blank
+  Updated: 2023-06-14 18:51:40`"]
+end
+subgraph obj [Objects]
+  OBJ1["2023.1.1"]
+end
+SL1-->LMI1
+SL2-->LMI2
+SL3-->LMI3
+OBJ1<-->LMI1
+OBJ1<-->LMI2
+OBJ1<-->LMI3
+----
+
+None of the LMIs has a location date.
+
+The order of last record update, oldest to most recent is:
+
+* INV2023.6.03
+* LOC2023.6.01
+* LOC2023.6.02
+
+_Computed current location_ = _{tilde}Indeterminate Location{tilde}_
