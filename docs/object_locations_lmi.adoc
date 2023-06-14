@@ -8,6 +8,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
 endif::[]
 
 = Object location, Location/movement/inventory (LMI) procedure, and Storage location authority
@@ -25,6 +26,36 @@ toc::[]
 * The Location/movement/inventory (LMI) procedure records information about the _procedure_ or _process_ of identifying/assigning the location of an object or objects, moving an object or objects, and/or conducting an inventory of an object or objects.
 * Relationships must be created between the LMI procedure and the object(s) whose location or movement it describes
 * If an object is related to one or more LMI procedures, the currentLocation field value from the most recent related LMI procedure is displayed in the object record as `Computed current location`. You can also search for objects by their `Computed current location` value.
+
+== Examples
+=== Single object, single LMI
+
+[source,mermaid]
+----
+flowchart LR
+subgraph loc ["`Storage Location/Local
+Authority`"]
+  SL1["Storage room C"]
+end
+subgraph lmi ["`Location/Movement/Inventory
+Procedures`"]
+  LMI1["`LOC2020.1.27
+  Current location: Storage room C
+  Location date: 2021-11-01
+  Updated: 2021-11-01 20:04:39`"]
+end
+subgraph obj [Objects]
+  OBJ1["IN2020.30"]
+end
+SL1-->LMI1
+OBJ1<-->LMI1
+----
+
+image::obj_lmi_1.png[1920]
++++&nbsp;+++
+
+
+
 
 == LMI location fields
 
