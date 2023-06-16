@@ -1,0 +1,354 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: https://raw.githubusercontent.com/lyrasis/collectionspace-migration-explainers/main/img
+endif::[]
+
+= Preparing subject data for migration into CollectionSpace: precoordinate vs. postcoordinate approach
+
+Some clients migrate to CS from systems where precoordinate subject indexing systems like Library of Congress Subject Headings were used.
+
+These clients will need to decide how they want this subject data treated in CS.
+
+This page lays out some pros and cons of different approaches.
+
+toc::[]
+
+== Precoordinate? Postcoordinate?
+
+Many subjects expressed in description are multi-part or multi-faceted.
+
+A **precoordinate** approach expresses an entire, specific, multipart subject in one string. I.e. the work of putting the pieces together happens prior to using the value in a system.
+
+.Precoordinate example
+====
+* Stieglitz, Alfred - Photography
+* O'Keefe, Georgia - Painting
+* O'Keefe, Georgia - Biography
+* New Mexico - Pictorial works
+* New Mexico - History - 20th century
+====
+
+A **postcoordinate** approach records each part of a subject separately in the system. I.e. the work of combining the pieces of a multi-part subject is done at query time.
+
+.Postcoordinate example
+====
+* Stieglitz, Alfred
+* O'Keefe, Georgia
+* New Mexico
+* History
+* 20th century
+* Photography
+* Painting
+* Biography
+* Pictorial works
+====
+
+We can take this a little further by introducing the notion of "faceting" to either a precoordinate or postcoordinate approach. Here, "facets" refers to the different types of subjects that might be represented.
+
+.Faceted precoordinate example
+====
+Person subjects:
+
+* Stieglitz, Alfred - Photography
+* O'Keefe, Georgia - Painting
+* O'Keefe, Georgia - Biography
+
+Place subjects:
+
+* New Mexico - Pictorial works
+* New Mexico - History - 20th century
+====
+
+.Faceted postcoordinate example
+====
+Person names:
+
+* Stieglitz, Alfred
+* O'Keefe, Georgia
+
+Place names:
+
+* New Mexico
+
+Concepts/topics:
+
+* History
+
+Chronological periods:
+
+* 20th century
+
+Concept/topic OR Genre/form terms:
+
+* Photography
+* Painting
+* Biography
+* Pictorial works
+
+For the last group, it depends on whether the thing being described _is_ photography/photographs or _is about_ photography.
+====
+
+== What works best in CS?
+
+Unfortunately, there is no straightforward, across-the-board answer to this question. It will depend on:
+
+* How subjects are represented in your legacy data
+* How much time/effort you want to spend on data cleanup in the migration
+* Your needs and priorities for using this data in CS
+* To some extent, what CS domain profile you are migrating into
+
+Below, we'll go over some pros and cons of each of the approaches described above in the context of CS.
+
+== Pros and cons of approaches
+
+=== Faceted postcoordinate
+
+==== PRO: In general, the design and current functionality of CS appears to suggest this as the preferred approach
+
+The fields in the CS object record's _Object Description Information > Content_ and _Object History and Association Information > Associations_ sections support this approach:
+
+._Object Description Information > Content_ fields
+image::obj_content_fields.png[2240]
++++&nbsp;+++
+
+._Object History and Association Information > Associations_ fields
+image::obj_associations_fields.png[2240]
++++&nbsp;+++
+
+Taking this approach, we create the necessary terms in the appropriate authority vocabularies and populate the record like this:footnote:["20th century" should actually go in the new, controlled _Content era/period_ field expected to ship in v7.2, but the field isn't showing up yet]
+
+.Book about Georgia O'Keefe, Stieglitz' photography of her, and New Mexico history
+image::obj_okeefe_bio_content_postcoord.png[1052]
++++&nbsp;+++
+
+==== PRO: Term values are relatively brief
+
+This means that you can usually see the whole term used in a field when looking at a record, or in search results lists.
+
+Contrast with the CON given under Non-faceted precoordinated below.
+
+==== PRO: You can find all uses of a name/place/concept
+
+This allows us to look at the authority records, to see all the places that term has been used:
+
+.Uses of person name "O'Keefe, Georgia"
+image::fac_postcoord_per_auth_term_okeefe.png[2982]
++++&nbsp;+++
+
+.Uses of person name "Stieglitz, Alfred"
+image::fac_postcoord_per_auth_term_stieglitz.png[1114]
++++&nbsp;+++
+
+.Uses of concept term "Biography"
+image::fac_postcoord_con_auth_term_bio.png[1114]
++++&nbsp;+++
+
+==== CON: This approach is not fully/consistently supported across CollectionSpace domain profiles
+
+The screenshots above are taken from the core domain profile (v7.2 preview snapshot).
+
+Note that Content place is *not* controlled by the place authority. I can enter "New Mexico", "NM", or whatever I like here.
+
+I will not be able see that there are objects with "New Mexico" as Content place when I look at any "New Mexico" place authority term.
+
+What fields are controlled by authorities, and which authorities are used to control each field, varies across domain profiles. For example, the Content place field current is controlled by the place authority in the bonsai, fine & contemporary art (FCART), and local history & material culture (LHMC) domain profiles.
+
+==== CON: Loss of search specificity/precision
+
+
+While we can specify a specific query, such as objects with "Biography" as a Content concept and "Stieglitz, Alfred" as a Content person...
+
+.Query for biographies of Alfred Stieglitz
+image::query_bio_stieglitz.png[1486]
++++&nbsp;+++
+
+...The results include our book which is _not_ a biography of Stieglitz, but instead contains and talks about his photographs of Georgia O'Keefe
+
+.Result of query for biographies of Alfred Stieglitz
+image::query_bio_stieglitz_result.png[932]
++++&nbsp;+++
+
+==== ❓: Format of your legacy data matters
+
+If we are migrating you from MARC bibliographic data, and you have followed the MARC data encoding standards consistently, we can fairly easily process your data into a faceted, postcoordinate format.
+
+.In standard MARC, the tags and subfield delimiters allow us to split and facet the values programmatically
+....
+600 00 $a O'Keefe, Georgia $v Biography
+651  0 $a New Mexico $x History $y 20th century
+....
+
+However, taking this approach may require a relatively large amount of cleanup and term categorization during your migration if:
+
+* You are coming from a system where subject heading strings have just been recorded as plain text
+
+.Plain text strings lack the semantic information required for programmatic faceting
+....
+O'Keefe, Georgia -- Biography
+New Mexico -- History -- 20th century
+....
+
+* You have not consistently followed MARC encoding standards
+
+.This valid but non-standard MARC does not express that O'Keefe is a person name, Biography is a genre/form, New Mexico is a place, or 20th century is a chronological term.
+....
+650  $a O'Keefe, Georgia $x Biography
+650  $a New Mexico $x History $x 20th century
+....
+
+[NOTE]
+====
+With this approach, the review and cleanup required prior to loading any data at all into CS can take quite a long time, since:
+
+1. Terms from subject data need to be categorized as persons, organizations, places, or concepts; and
+2. Non-concept terms need to be split out and reconciled with other person, organization, and/or place values in your data
+3. Authority data needs to be fairly well finalized/sorted out before a lot of work is done loading other record types (which use values from the authorities)
+====
+
+=== Non-faceted precoordinate
+
+With this approach, each unique subject heading string becomes a Concept authority term.footnote:[See <<Faceted precoordinate>> section for an explanation of why all should be subjects.] These terms can be assigned as _Content concept_ or _Associated concept_ field values.
+
+.Non-faceted precoordinate approach in object record
+image::obj_okeefe_bio_content_precoord.png[932]
++++&nbsp;+++
+
+==== PRO: Search specificity is retained
+
+This irrelevant record would not be returned for the query shown above.
+
+To find biographies of Stieglitz you'd need to search for _Content concept_ is "Stieglitz, Alfred -- Biography". Only records having that authority term would be included in results.
+
+==== PRO: Relatively small amount of data review/cleanup needed, regardless of original data format
+
+Instead of categorizing terms into different authorities, everything is treated as a Concept (Associated) term.
+
+Your cleanup is limited to fixing typos or use of variant forms ("O'Keefe, Georgia -- Biography" vs "O'Keefe, Georgia -- Biographies"), if desired.
+
+Since all the terms will be going into the same authority vocabulary, you can merge any variants within CS using the Merge Authority tool.
+
+==== ❓: Number of concepts required
+
+Instead of maintaining your Person name terms and one Concept term "Biography", you need to establish (and maintain over time) a "Name + Biography" Concept (Associated) term for every person for whom there is a biography.
+
+==== CON: Difficult to maintain consistent data over time
+
+There is no support from the system to ensure data consistency.
+
+You can have Person term "O'Keefe, Georgia", and create the concept "Georgia O'Keefe -- Biography".
+
+Later you can add the concept "Alfred Stieglitz -- Biographies".
+
+
+==== CON: Search has likely become _over_-precise
+
+It is now difficult-to-impossible to find everything pertaining to Georgia O'Keefe, or all Biographies, etc.
+
+Looking at the Person term record for O'Keefe no longer shows the usage of her name in this record. That is because her _person_ name is not used in this record. A concept term that starts with her name is used in this record.
+
+Further, currently (as of v7.2), there is a fairly significant limitation in CS advanced search when searching on fields controlled by authority vocabularies.
+
+.Advanced search options for fields controlled by authority vocabularies
+image::authority_controlled_field_search_opts.png[986]
++++&nbsp;+++
+
+You may specify only that:
+
+* The field contains a specific term (the full exact term, e.g. "O'Keefe, Georgia -- Biography", which you select from list of terms matching what you typed)
+* The field does not contain a specific term (selected as above)
+* The field is not blank
+* The field is blank
+
+**You cannot easily find all objects having a _Content concept_ field value that _contains_ "Biography".**
+
+Achieving this would require:
+
+1. Identify all Concept terms containing "Biography" via an advanced search on Concepts.
+2. Using that list, manually construct an advanced search query on Objects that adds a new "or Content concept is..." line for every term.
+
+You can do a keyword search (top of screen) for "Biography," but that will return all records with that term used anywhere, which can return a lot of noise in your results.
+
+==== CON: Long authority terms can be hard to work with in various aspects of the UI
+
+Smaller screens or narrower browser windows make this worse, but depending on the length of your headings, it can be problematic full-screen on a large monitor.
+
+The subjects in this example are not very long, and they are cut off in the data entry/object record screenshot above.
+
+The issue is more pronounced when searching for concepts:
+
+.Half-screen on 15.4-inch display
+image::concepts_list_half.png[1126]
++++&nbsp;+++
+
+Note that a larger screen doesn't help this issue much because a lot of the white space on the right will not be used, regardless of screen size:
+
+.Full-screen on 15.4-inch display
+image::concepts_list_full.png[3340]
++++&nbsp;+++
+
+Selection of terms when entering data can also be hindered if terms are very long:
+
+.Half-screen on 15.4-inch display
+image::concept_select_half.png[1624]
++++&nbsp;+++
+
+NOTE: In all these cases, you can hover your mouse pointer over the partially-displayed term, and a box with info including the full term will pop up. However, consider the impact of needing to do that frequently in your workflows.
+
+=== Faceted precoordinate
+
+==== CON: CS does not support this approach
+
+You would not want to create "O'Keefe, Georgia - Biography" as a Person authority term because:
+
+* "O'Keefe, Georgia - Biography" expresses "biography of Georgia O'Keefe", which is a concept, not a person
+* the Person authority is used to control many fields such as _Object production person_ and acquisition _Authorizor_, in which "O'Keefe, Georgia - Biography" would be a completely inappropriate value
+
+Because of this, all the precoordinate strings would need to be established as Concept authority terms. Pros and cons of this approach were covered in the <<Non-faceted precoordinate>> section above.
+
+=== Non-faceted postcoordinate
+
+This would look like establishing each of the following as a Concept (Associated) term, and assigning them all as _Content concept_ values:
+
+* Stieglitz, Alfred
+* O'Keefe, Georgia
+* New Mexico
+* History
+* 20th century
+* Photography
+* Painting
+* Biography
+* Pictorial works
+
+==== PRO: Minimal review/cleanup work required
+
+As long as your subject headings have consistent " -- " or other string that unambiguously allows us to split the values, your cleanup/review would be limited to fixing any typos or inconsistent variant use.
+
+==== PRO: Consistent support except for materials and botanical garden domain profiles
+
+Aside from the two exceptions listed below, the _Content concept_ and _Associated concept_ fields in all domain profiles are controlled by the Concept (Associated) authority.footnote:[Terms from Concept (Material) may also be used in _Content concept_.]
+
+_Content concept_ is an uncontrolled, free text field in the materials domain profile.
+
+_Associated concept_ is an uncontrolled, free text field in the botanical garden domain profile.
+
+==== CON: Poor search precision strangely combined with over-precision
+
+A query for "_Content concept_ is 'Stieglitz, Alfred' and _Content concept_ is 'Biography'" would still return our biography of Georgia O'Keefe.
+
+We can look at the Concept term "Biography" and see all the records in which that term has been used.
+
+However, we no longer have a way to see all the records where "Stieglitz, Alfred" has been used, since sometimes (_Object production person_) it will have been used from the Person authority, and other times (_Content concept_, _Associated concept_) it will have been used from the Concept authority.
+
+If we want to find everything related to Stieglitz, we now have to know all possible fields where the name might have been used and conduct a query like "_Content concept_ is 'Stieglitz, Alfred' or _Associated concept_ is 'Stieglitz, Alfred' or _Object production person_ is 'Stieglitz, Alfred'  or _Owner_ is 'Stieglitz, Alfred' or..." This search would also be limited to one record type.
+
+==== CON: Difficult to maintain consistent data over time
+
+There is no support in the system for ensuring you are using the same form of name in both the Person/Organization/Place authority and the Concept authority.
