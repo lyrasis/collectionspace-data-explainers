@@ -26,6 +26,7 @@ toc::[]
 * There are two Storage Location authority vocabularies: Local and Offsite. More on these below.
 * We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
 * Organization authority terms can also be used to populate location fields in the LMI procedure.
+* In the Fine and Contemporary Art (FCART) and Public Art domain profiles, Place authority terms can also be used to populate location fields in the LMI procedure.
 * Like all authority terms, Storage locations can be https://collectionspace.atlassian.net/wiki/spaces/COL/pages/546013229/User+Manual+Creating+Authority+Hierarchies[organized in a hierarchy]. See https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
 
 == Decisions you may be asked to make
