@@ -41,7 +41,7 @@ Examples: Person, Storage Location
 ** Acquisition Authorizer field controlled by Person - Local. (Person - ULAN terms cannot be used here)
 ** Acquisition Funding source field controlled by Person - Local and Organization - Local
 
-=== Term lists
+=== Term lists (AKA vocabularies)
 
 AKA: vocabulary (not "authority vocabulary"), dynamic term list
 
