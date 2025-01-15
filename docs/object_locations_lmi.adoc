@@ -174,8 +174,6 @@ In general:
 
 Exceptions:
 
-* Local history & material culture (LHMC) profile
-** Labeled: "Temp location/building"
 * Botanical garden profile
 ** Labeled: "Garden location"
 ** **Not a required field when manually entering records**
@@ -189,9 +187,9 @@ In general:
 
 Exceptions:
 
-* Local history & material culture (LHMC) profile
-** Labeled: "Home location/building"
 * Botanical garden profile
+** Not included in record
+* Public art profile
 ** Not included in record
 
 
