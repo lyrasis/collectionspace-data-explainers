@@ -18,16 +18,16 @@ Log into your CollectionSpace instance.
 Look at the bottom right corner of any screen and you will see something like:
 
 ....
-Release 6.1
-UI version 5.0.0
+Release 8.3.0
+UI version 10.2.1
 ....
 
-The above indicates your CollectionSpace application version is 6.1. There is no profile listed, so you have the "core" profile.
+The above indicates your CollectionSpace application version is 8.3.0. There is no profile listed, so you have the "core" profile.
 
 ....
-Release 7.0
-UI version 6.0.0
-Fine and Contemporary Art profile version 4.0.0
+Release 8.3.0
+UI version 10.2.1
+Anthropology profile version 9.2.0
 ....
 
-The above indicates your CollectionSpace application version is 7.0. You have the Fine and Contemporary Art (fcart) profile.
+The above indicates your CollectionSpace application version is 8.3.0. You have the Anthropology (anthro) profile.
