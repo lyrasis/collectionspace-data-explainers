@@ -15,11 +15,7 @@ endif::[]
 
 toc::[]
 
-== Configuration/data entry recommendations
-
-* Configure your CollectionSpace instance to disallow populating fields with variant display names for terms (given examples below, this means populating all fields with "Wonder Woman" and not using "Diana Prince" in records)
-* Do your best to maintain unique main display names in a given authority vocabulary (i.e. Person/Local or Organization/ULAN). If you are a Lyrasis hosted CollectionSpace client, we can quickly run a report of duplicate terms in a given authority for you on request.
-
+[#main]
 == Main/primary/preferred term
 
 The first term block in an authority record is the main/primary/preferred term.
@@ -58,6 +54,7 @@ This is also the value you will get if you export data from selected records to 
 
 If you are using the CSV Importer to batch ingest or update data, you must enter the exact main/primary/preferred term values in your CSV.
 
+[#variant]
 == Variant terms
 
 You may enter additional term blocks in your authority record to add variant forms of term/name.
@@ -72,9 +69,15 @@ Now you can enter part of the variant term in the Acquisition source field and t
 image::auth_ww_var_select.png["Variant term match when populating field",1114]
 +++&nbsp;+++
 
+Searching for Person terms where display names contain "Prince" returns results showing only the main term:
+
+.Display of main term in search result for variant
+image::auth_ww_var_search.png[1370]
++++&nbsp;+++
+
 [NOTE]
 ====
-Depending on how your CollectionSpace instance is configured, you _may_ be able to select the variant term for use in your record:
+If you are *not* a Lyrasis-hosted CollectionSpace user with a standard service contract, you _may_ be able to select the variant term for use in your record:
 
 .Use of variant form in record
 image::auth_ww_var_select_var.png["Use of variant form in record",1114]
@@ -86,30 +89,39 @@ If you do this, you will see the variant term in your record, in exported data, 
 image::auth_ww_var_select_var_hover.png[942]
 +++&nbsp;+++
 
-**We recommend configuring your CollectionSpace instance to enforce the use of main terms only.** See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record.
+
+**We recommend configuring your CollectionSpace instance to enforce the use of main terms only.** If you are a Lyrasis-hosted CollectionSpace user who does not have a special service agreement, this is already enforced for you. See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record.
 ====
-
-Searching for Person terms where display names contain "Prince" returns results showing only the main term:
-
-.Display of main term in search result for variant
-image::auth_ww_var_search.png[1370]
-+++&nbsp;+++
 
 == Maintenance functionality
 
 === Changing display names
-You can change the value of a Display name in an authority record. When you save the authority record, all fields populated with that display name are updated behind the scenes to display the new value. Note that this can take a very long time if the display name has been used in large numbers of fields.
+
+You can change the value of a Display name in an authority record. When you save the authority record, all fields populated with that display name are updated behind the scenes to display the new value.
+
+[WARNING]
+====
+Note that this can take a very long time if the display name has been used in large numbers of fields.
+
+If a term has been updated more than ~9500 times, the application may time out while attempting to update the usages.
+====
 
 === Merging authorities
-This data update functionality is documented in the https://collectionspace.atlassian.net/wiki/spaces/COL/pages/905445377/User+Manual+Data+Updates+Merge+Authority+Items[CS User Manual].
+
+This data update functionality is documented in the https://collectionspace.atlassian.net/wiki/spaces/CUD/pages/3435036673/Authority+Control#Merging-Authorities[CollectionSpace User Manual 🔒].
 
 Note that you can only merge terms from the same authority vocabulary. That is, you cannot merge a Person/Local and a Person/ULAN term. Nor can you merge a Person/Local with an Organization/Local term.
+
+[WARNING]
+====
+This can also take a very long time or time out if the term being merged into the target term is used in a large number of records.
+====
 
 == Data integrity, uniqueness, and batch data processing issues
 
 === Reasoning for not allowing selection of variant terms for use in records
 
-* The point of authorities/controlled vocabularies is to establish one main form of name for each entity or concept, to maximize consistency in data. Allowing the assignment of variant names in records subverts the purpose of having authorities.
+* The entire point of authorities/controlled vocabularies is to establish one main form of name for each entity or concept, to maximize consistency in data. Allowing the assignment of variant names in records subverts the purpose of having authorities.
 * Currently, you cannot round-trip data using variant terms by exporting CSV data, making updates, and re-ingesting with the CSV Importer. The CSV Importer cannot match/insert variant names into CollectionSpace records via batch processing. Adding the ability to do this is not currently on the roadmap for development.
 * In the "Used By" list for the authority term, you can see where variant forms have been used and see all uses of all forms of the term:
 
@@ -124,7 +136,7 @@ image::auth_ww_search_when_var_used.png[1692]
 +++&nbsp;+++
 
 * Use of variant forms in your records will introduce complications (or difficulties) in getting the desired results in reports, database queries, or applications leveraging the REST API.
-* [needs confirmation] If using the public browser, variant terms will facet differently/separately from the main terms. Again, this goes against the spirit of authorities, which are implemented in order to enforce data consistency
+* If using the public browser, variant terms will facet differently/separately from the main terms. Again, this goes against the spirit of authorities, which are implemented in order to enforce data consistency
 * Having multiple forms of name for the same entity/concept in your data makes it more difficult than it already is to ensure the integrity of that data. The problems of non-unique name values multiplies when you must also take into account whether the same variant name appears in more than one record.
 
 === Duplicate display name values
@@ -146,7 +158,7 @@ Under the hood, at the system data level, these names have separate, unique IDs 
 The refname is what is actually stored as the field values of records. This is how the system keeps the names separate.
 
 ==== Manual data entry in the application
-The user interface make it possible for a careful human entering data to differentiate between these two names and select the appropriate value when entering data by hovering over each entry in the search list to see more details:
+The user interface makes it possible for a careful human entering data to differentiate between these two names and select the appropriate value when entering data by hovering over each entry in the search list to see more details:
 
 .Hovering over duplicate names for more details while entering data
 image::auth_dupe_search_hover.png[1926]
@@ -166,16 +178,25 @@ image::auth_dupe_search_results_list.png[1832]
 +++&nbsp;+++
 
 ==== Public browser
-TODO: check this behavior - based on understanding of how data is indexed for the Public browser, I initially assume both our "Anonymous" names would get lumped into one "Anonymous" value.
+
+Both our "Anonymous" names would get lumped into one "Anonymous" faceted/linked name value.
 
 ==== Batch data ingest
 
 ===== Non-unique names
+
 These names are problematic for batch ingest via the CSV Importer.
 
-It would be the opposite of user-friendly to expect folks to enter the refnames of terms into their CSV templates.
+[TIP]
+====
+You can prepare your CSVs with the refnames instead of `termDisplayName` strings.
 
-Instead, you prepare CSVs for ingest by entering the text of the Display name ("Anonymous") into the column for the target field.
+You would enter the refname value(s) in a `objectProductionPersonRefname` column and get rid of the `objectProductionPersonPersonLocal` and `objectProductionPersonPersonUlan` columns.
+
+*But this is not end-user friendly!*
+====
+
+Usually, you prepare CSVs for ingest by entering the text of the Display name ("Anonymous") into the column for the target field.
 
 The ingest/mapping process does an exact/full match search for each name value via an API call to retrieve the refname identifier for the name.
 
@@ -187,7 +208,12 @@ Using variant names as values in records (i.e. Diana Prince as Acquisition sourc
 
 ==== Migration
 
-Because migration processes are use batch data ingest tools, the data we migrate is under more constraints than data you might manually enter into CS:
+Because migration processes are use batch data ingest tools, the data we migrate is under more constraints than data you might manually enter into CollectionSpace:
 
 * We ensure the display name values of all authority terms in a given authority vocabulary are unique
 * Only main/primary/preferred display name values are used as values in your records.
+
+== Configuration/data entry recommendations
+
+* Configure your CollectionSpace instance to disallow populating fields with variant display names for terms (given examples below, this means populating all fields with "Wonder Woman" and not using "Diana Prince" in records). This option is turned OFF for Lyrasis hosted clients.
+* Do your best to maintain unique main display names in a given authority vocabulary (i.e. Person/Local or Organization/ULAN). If you are a Lyrasis hosted CollectionSpace client, we can quickly run a report of duplicate terms in a given authority for you on request.
