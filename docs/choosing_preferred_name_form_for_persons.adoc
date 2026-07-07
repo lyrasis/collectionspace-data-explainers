@@ -14,28 +14,21 @@ endif::[]
 
 toc::[]
 
+[#decision]
 == The big decision
 
-This is mainly about whether to use direct (Mary P. Smith) or inverted (Smith, Mary P.) form of name as your preferred form of person name in CS.footnote:[This could also refer to different language forms of the same name, but in practice I have not run into this situation in client data --Migration specialist KS]
+This is mainly about whether to use direct (Mary P. Smith) or inverted (Smith, Mary P.) form of name as your preferred form of person name in CollectionSpace.footnote:[This could also refer to different language forms of the same name, but in practice I have not run into this situation in client data --Migration specialist KS]
 
 If your legacy system records name parts in a granular manner (given, middle, last, titles, suffixes in separate fields for each name), and you have populated this data accurately/consistently, we can generally use this data to create whichever preferred and variant forms you like.
 
 If not, your choice may be limited to the form of name that has been recorded in your legacy system, unless you are willing to undertake significant data cleanup as part of the migration.
 
-== What does "preferred form" mean in CS?
+[#prefvariant]
+== What do "preferred form" and "variant form" mean in CollectionSpace?
 
-* This is the *_first_* form of the name recorded in the Person authority record
-* It is the form of name that will be displayed in your Object or procedure records when you populate fields using Person authority terms
-* It is the name you will see under "Display name" in search results for Persons
+See xref:authority_main_variant_term_functionality.adoc[Authority main and variant term functionality] for this explanation.
 
-NOTE: You can edit the preferred form later, and the form displayed in other records and in search results will reflect your changes. However, when you first create a term record, the system generates a persistent under-the-hood unique ID based on the initial preferred form. This should not have an effect on your work in the system, though.
-
-== What are "variant forms" in CS?
-
-- These would be any subsequent forms of a name recorded in the same Person record.
-- When entering data in a field controlled by a Person authority, you can type in the variant form to find/assign the desired person name.
-- Searching for a variant form will return records containing that variant form in a simple or advanced search for Persons.
-
+[#altnames]
 == Alternate names
 
 "Mary P. Smith", "Smith, Mary P.", and "M.P. Smith" are all variant forms of the same basic name.
@@ -46,7 +39,9 @@ If your legacy system represents alternate names in a systematic way, we can mer
 
 They will be another subsequent form of name recorded in the same Person record, and will function like a variant name in the system.
 
+[#detailfields]
 == Other term info fields related to name form
+
 If name part details are available in the legacy data, they are mapped to the `Term > Name detail` fields.
 
 It is possible to:
@@ -82,11 +77,11 @@ NOTE: If you have coded name part details in TMS and choose direct form as your 
 === Can I change my mind later?
 Not really.
 
-This choice is fundamental to linking your data together in CS, so changing it during the course of a migration would require a lot of initial work to be re-done.
+This choice is fundamental to linking your data together in CollectionSpace, so changing it during the course of a migration would require a lot of initial work to be re-done.
 
-After data is in CS, you can manually change what form is used as preferred form in one record at a time. This causes all records using that name to be updated, which happens automatically, but can take a long time if many records use a name.
+After data is in CollectionSpace, you can manually change what form is used as preferred form in one record at a time. This causes all records using that name to be updated, which happens automatically, but can take a long time if many records use a name.
 
-Unfortunately, you cannot batch change the preferred form of name via the CSV Importer. This is because the preferred form of name is what the CSV Importer uses to match data in a CSV to records in CS. If you change the preferred form of name in the CSV, it won't match an existing name in CS, and will import as a new name.
+Unfortunately, you cannot batch change the preferred form of name via the CSV Importer. This is because the preferred form of name is what the CSV Importer uses to match data in a CSV to records in CollectionSpace. If you change the preferred form of name in the CSV, it won't match an existing name in CollectionSpace, and will import as a new name.
 
 === Our Person names don't have individual name part data. Should we just use whatever form of name is recorded?
 
