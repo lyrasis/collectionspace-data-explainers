@@ -20,7 +20,7 @@ toc::[]
 How you will want to handle this depends on:
 
 Your needs:: What kinds of questions do you need to answer using your CollectionSpace (CS) data?
-Your resources for answering questions using your CS data:: Do you need to be able to get the information you need in the web application by pressing a button? Or can you write SQL to query the database to get specific information you might need, or could you script something that leverages the REST API to harvest the data you need?
+Your resources for answering questions using your CollectionSpace data:: Do you need to be able to get the information you need in the web application by pressing a button? Or can you write SQL to query the database to get specific information you might need, or could you script something that leverages the REST API to harvest the data you need?
 
 There are tradeoffs relationships between those dependencies:
 
@@ -49,7 +49,7 @@ Objects 1 and 2 were eventually returned to the lender, but Museum still has Obj
 
 This page refers to two reports that are in development, and which will eventually be added to the base community-supported CSpace application.
 
-Object Valuation Report:: Documented in https://collectionspace.atlassian.net/wiki/spaces/COL/pages/2672361473/Report+Details+Object+Valuation+DRAFT+WORK+IN+PROGRESS[the CS Report Repository]. This report runs on a list of selected objects (search results list or list of objects related to a procedure). It gives you a spreadsheet with some very basic identifying info about each object, and information from the most recent valuation control procedure related to each object. 
+Object Valuation Report:: Documented in https://collectionspace.atlassian.net/wiki/spaces/COL/pages/2672361473/Report+Details+Object+Valuation+DRAFT+WORK+IN+PROGRESS[the CollectionSpace Report Repository]. This report runs on a list of selected objects (search results list or list of objects related to a procedure). It gives you a spreadsheet with some very basic identifying info about each object, and information from the most recent valuation control procedure related to each object.
 
 Related Object Valuation Report:: This is not as far along in development and is not yet documented. It will be runnable from any procdure (Loan, Group, etc.) that can be related to objects, *or* from a selected list of such procedures. First it finds the list of all the objects related to the selected procedure(s). Then it produces the *Object Valuation Report* described above for all those objects.
 
@@ -126,7 +126,7 @@ This is clearly a bad idea since we have item level VCs for our objects, but if 
 If you do not have valuations for each item in a loan, this may be the way...
 
 .Data entry
-* In 2018, we only had a group-level estimated value for all the objects in the loan, so VC LI 1 is created. 
+* In 2018, we only had a group-level estimated value for all the objects in the loan, so VC LI 1 is created.
 * VC LI 1 is linked to the loan (r8) and each object included in its aggregate value estimate (r9-11)
 * VC 3.2 is created later with the current value of Obj 3, and linked only to that object (r7)
 
@@ -145,4 +145,3 @@ image::loan_obj_val_model4.png[547]
 | Obj 2  | VC LI 1 | 2018-06-12 |        3 |          200 |      66.67 |
 | Obj 3  | VC 3.2  | 2022-03-10 |        1 |          300 |        300 |
 ....
-

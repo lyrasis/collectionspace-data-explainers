@@ -66,7 +66,7 @@ Your legacy system may have the following location values:
 
 These may or may not be coded in your legacy system as being local vs. offsite, but we find that it is typically worthwhile to review the categorization for the migration.
 
-**Separating these out into separate authority vocabularies for CS is _not_ required**. We default to loading all your location values into Storage Locations/Local if you want them all in one authority.
+**Separating these out into separate authority vocabularies for CollectionSpace is _not_ required**. We default to loading all your location values into Storage Locations/Local if you want them all in one authority.
 
 Depending on your situation, there may be benefits to separating the Storage Locations into the Local and Offsite vocabularies. In this case, you might end up with:
 

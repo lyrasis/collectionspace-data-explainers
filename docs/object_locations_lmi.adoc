@@ -159,7 +159,7 @@ OBJ1<-->LMI2
 
 These fields are populated with values from either of the Storage Location authorities (local or offsite), or the local Organization authority.
 
-In the Public Art domain profile (and Fine and Contemporary Art (FCART) starting with CS 7.2) you can also use terms from the local Place authority in these fields.
+In the Public Art domain profile (and Fine and Contemporary Art (FCART) starting with CollectionSpace 7.2) you can also use terms from the local Place authority in these fields.
 
 In the Botanical Garden domain profile, only terms from local Storage Location and local Organization authorities can be used.
 

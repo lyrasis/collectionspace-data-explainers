@@ -69,7 +69,7 @@ It is possible to:
 ** IF YES:
 *** If you have entered this data accurately and consistently, you may have options. See <<system-specific-considerations>> for more info or consult with your Migration Specialist.
 
-* **Will you (now or in the future) want to use https://getty.edu/research/tools/vocabularies/ulan[Union List of Artist Names (ULAN)] Person names in your CS instance?**
+* **Will you (now or in the future) want to use https://getty.edu/research/tools/vocabularies/ulan[Union List of Artist Names (ULAN)] Person names in your CollectionSpace instance?**
 ** ULAN names are in inverted format
 ** If you want your local names to be consistent with your ULAN names, you probably want to use inverted form as your preferred form (This is desireable because it will simplify reporting and sorting exported record data which may use names from both authorities)
 
@@ -118,4 +118,3 @@ The following is based on these observations, without certainty that this is the
 *** If you use direct form as the preferred form, for all names having name part details recorded in TMS, you will get the inverted form as a variant form, and vice versa.
 
 NOTE: Names are also extracted from selected fields in the Loans, Obj Accession, and Obj Locations tables in TMS. These do not have any name details associated with them, so large numbers of names from these data sources, and how you have entered them, may influence your decision.
-

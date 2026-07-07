@@ -17,8 +17,8 @@ toc::[]
 
 == Configuration/data entry recommendations
 
-* Configure your CS instance to disallow populating fields with variant display names for terms (given examples below, this means populating all fields with "Wonder Woman" and not using "Diana Prince" in records)
-* Do your best to maintain unique main display names in a given authority vocabulary (i.e. Person/Local or Organization/ULAN). If you are a Lyrasis hosted CS client, we can quickly run a report of duplicate terms in a given authority for you on request.
+* Configure your CollectionSpace instance to disallow populating fields with variant display names for terms (given examples below, this means populating all fields with "Wonder Woman" and not using "Diana Prince" in records)
+* Do your best to maintain unique main display names in a given authority vocabulary (i.e. Person/Local or Organization/ULAN). If you are a Lyrasis hosted CollectionSpace client, we can quickly run a report of duplicate terms in a given authority for you on request.
 
 == Main/primary/preferred term
 
@@ -74,7 +74,7 @@ image::auth_ww_var_select.png["Variant term match when populating field",1114]
 
 [NOTE]
 ====
-Depending on how your CS instance is configured, you _may_ be able to select the variant term for use in your record:
+Depending on how your CollectionSpace instance is configured, you _may_ be able to select the variant term for use in your record:
 
 .Use of variant form in record
 image::auth_ww_var_select_var.png["Use of variant form in record",1114]
@@ -86,7 +86,7 @@ If you do this, you will see the variant term in your record, in exported data, 
 image::auth_ww_var_select_var_hover.png[942]
 +++&nbsp;+++
 
-**We recommend configuring your CS instance to enforce the use of main terms only.** See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record.
+**We recommend configuring your CollectionSpace instance to enforce the use of main terms only.** See the https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_main_variant_term_functionality.adoc#data-integrity-uniqueness-and-batch-data-processing-issues[Data integrity, uniqueness, and batch data processing issues] section for reasoning. You will still be able to type "Prince" to bring up "Wonder Woman," but you will only be able to assign "Wonder Woman" in the record.
 ====
 
 Searching for Person terms where display names contain "Prince" returns results showing only the main term:
@@ -110,7 +110,7 @@ Note that you can only merge terms from the same authority vocabulary. That is, 
 === Reasoning for not allowing selection of variant terms for use in records
 
 * The point of authorities/controlled vocabularies is to establish one main form of name for each entity or concept, to maximize consistency in data. Allowing the assignment of variant names in records subverts the purpose of having authorities.
-* Currently, you cannot round-trip data using variant terms by exporting CSV data, making updates, and re-ingesting with the CSV Importer. The CSV Importer cannot match/insert variant names into CS records via batch processing. Adding the ability to do this is not currently on the roadmap for development.
+* Currently, you cannot round-trip data using variant terms by exporting CSV data, making updates, and re-ingesting with the CSV Importer. The CSV Importer cannot match/insert variant names into CollectionSpace records via batch processing. Adding the ability to do this is not currently on the roadmap for development.
 * In the "Used By" list for the authority term, you can see where variant forms have been used and see all uses of all forms of the term:
 
 .Uses of "Wonder Woman" authority term

@@ -27,7 +27,7 @@ toc::[]
 ** The CollectionSpace CSV Importer uses batch operations to add, update or delete records from your CollectionSpace instance. If you ever want to use that tool, we recommend you ensure a unique ID is entered for each record you add to your instance.
 
 == Record ID: Definition
-This is a value in a record that serves as a human viewable/meaningful identifier for that record. The system maintains its own under-the-hood identifiers, but this page is about the identifiers that people enter and look at and use in their work. 
+This is a value in a record that serves as a human viewable/meaningful identifier for that record. The system maintains its own under-the-hood identifiers, but this page is about the identifiers that people enter and look at and use in their work.
 
 It is usually the first (or nearly the first) field in the record form.
 
@@ -57,11 +57,11 @@ Most legacy systems from which we migrate data into CollectionSpace include reco
 
 When record IDs exist in the legacy data, we migrate those IDs as-is into CS.
 
-Due to differences in data modeling and representation between legacy systems and CS, there are usually some record types for which we need to generate record IDs during a migration. Two common examples are the Location/Movement/Inventory (LMI) and Media Handling procedures. In these cases we construct unique record IDs for use in CS from available data in the legacy data set.
+Due to differences in data modeling and representation between legacy systems and CS, there are usually some record types for which we need to generate record IDs during a migration. Two common examples are the Location/Movement/Inventory (LMI) and Media Handling procedures. In these cases we construct unique record IDs for use in CollectionSpace from available data in the legacy data set.
 
 The patterns we use to construct such IDs are flexible, within reason, so if you have preferences, let us know.
 
-NOTE: The patterns we devise to support migration data typically are not patterns suggested in the user interface number generators.They may not be the patterns you wish to carry forward as you begin working in CS. Most migration clients are content to treat the change in number pattern as a "feature", allowing them to easily distinguish legacy data from that which has been created within CS. 
+NOTE: The patterns we devise to support migration data typically are not patterns suggested in the user interface number generators.They may not be the patterns you wish to carry forward as you begin working in CS. Most migration clients are content to treat the change in number pattern as a "feature", allowing them to easily distinguish legacy data from that which has been created within CS.
 
 == Record IDs in batch data processing
 
@@ -73,7 +73,7 @@ The record ID value is how the CSV Importer knows what record to update or delet
 
 If you attempt to add a new record with an ID assigned to another record, the CSV Importer assumes you really want to update that existing record.
 
-TIP: If you are exporting data from CS to round-trip back in with the CSV Importer, always make sure to export the record ID value. Use your CSV/spreadsheet application to check for any duplicate or missing values in that field before ingesting the data. 
+TIP: If you are exporting data from CollectionSpace to round-trip back in with the CSV Importer, always make sure to export the record ID value. Use your CSV/spreadsheet application to check for any duplicate or missing values in that field before ingesting the data.
 
 === Batch updating the record ID values
 
@@ -85,7 +85,7 @@ I am considering a new CSV Importer "expert feature/option" where it would ident
 
 == Techical details on ID generators
 
-The gnarly details of ID generators are available via the CollectionSpace services API (your admin login credentials should get you in): 
+The gnarly details of ID generators are available via the CollectionSpace services API (your admin login credentials should get you in):
 
 https://core.dev.collectionspace.org/cspace-services/idgenerators
 
@@ -100,10 +100,10 @@ Using Movement Reference Number as an example, look for that in the list:
 </idgenerator-list-item>
 ---
 
-Adding the `csid` value to the end of the base URL will take you to the details for that generator: 
+Adding the `csid` value to the end of the base URL will take you to the details for that generator:
 https://core.dev.collectionspace.org/cspace-services/idgenerators/49ca9d8d-7136-47ff-a70e-4a47b9038b70
 
-There, the parts are listed: 
+There, the parts are listed:
 
 * StringIDGeneratorPart is a static string value - doesn't change
 * YearIDGeneratorPart inserts 4 digit current year
@@ -120,5 +120,3 @@ Consensus is that we should probably remove these patterns from the application 
 === Issue with year not updating in ID generators at new year
 
 This is https://collectionspace.atlassian.net/browse/DRYD-747[a long-standing known issue]. Given the cause (explained in the comments on the issue) we don't have a plan for any automatic fix, but we can manually update the stored data pattern state if necessary.
-
-

@@ -13,7 +13,7 @@ endif::[]
 
 = Preparing subject data for migration into CollectionSpace: precoordinate vs. postcoordinate approach
 
-Some clients migrate to CS from systems where precoordinate subject indexing systems like Library of Congress Subject Headings were used.
+Some clients migrate to CollectionSpace from systems where precoordinate subject indexing systems like Library of Congress Subject Headings were used.
 
 These clients will need to decide how they want this subject data treated in CS.
 
@@ -103,7 +103,7 @@ Unfortunately, there is no straightforward, across-the-board answer to this ques
 * How subjects are represented in your legacy data
 * How much time/effort you want to spend on data cleanup in the migration
 * Your needs and priorities for using this data in CS
-* To some extent, what CS domain profile you are migrating into
+* To some extent, what CollectionSpace domain profile you are migrating into
 
 Below, we'll go over some pros and cons of each of the approaches described above in the context of CS.
 
@@ -111,9 +111,9 @@ Below, we'll go over some pros and cons of each of the approaches described abov
 
 === Faceted postcoordinate
 
-==== PRO: In general, the design and current functionality of CS appears to suggest this as the preferred approach
+==== PRO: In general, the design and current functionality of CollectionSpace appears to suggest this as the preferred approach
 
-The fields in the CS object record's _Object Description Information > Content_ and _Object History and Association Information > Associations_ sections support this approach:
+The fields in the CollectionSpace object record's _Object Description Information > Content_ and _Object History and Association Information > Associations_ sections support this approach:
 
 ._Object Description Information > Content_ fields
 image::obj_content_fields.png[2240]
@@ -206,7 +206,7 @@ New Mexico -- History -- 20th century
 
 [NOTE]
 ====
-With this approach, the review and cleanup required prior to loading any data at all into CS can take quite a long time, since:
+With this approach, the review and cleanup required prior to loading any data at all into CollectionSpace can take quite a long time, since:
 
 1. Terms from subject data need to be categorized as persons, organizations, places, or concepts; and
 2. Non-concept terms need to be split out and reconciled with other person, organization, and/or place values in your data
@@ -233,7 +233,7 @@ Instead of categorizing terms into different authorities, everything is treated 
 
 Your cleanup is limited to fixing typos or use of variant forms ("O'Keefe, Georgia -- Biography" vs "O'Keefe, Georgia -- Biographies"), if desired.
 
-Since all the terms will be going into the same authority vocabulary, you can merge any variants within CS using the Merge Authority tool.
+Since all the terms will be going into the same authority vocabulary, you can merge any variants within CollectionSpace using the Merge Authority tool.
 
 ==== ❓: Number of concepts required
 
@@ -254,7 +254,7 @@ It is now difficult-to-impossible to find everything pertaining to Georgia O'Kee
 
 Looking at the Person term record for O'Keefe no longer shows the usage of her name in this record. That is because her _person_ name is not used in this record. A concept term that starts with her name is used in this record.
 
-Further, currently (as of v7.2), there is a fairly significant limitation in CS advanced search when searching on fields controlled by authority vocabularies.
+Further, currently (as of v7.2), there is a fairly significant limitation in CollectionSpace advanced search when searching on fields controlled by authority vocabularies.
 
 .Advanced search options for fields controlled by authority vocabularies
 image::authority_controlled_field_search_opts.png[986]
@@ -304,7 +304,7 @@ NOTE: In all these cases, you can hover your mouse pointer over the partially-di
 
 === Faceted precoordinate
 
-==== CON: CS does not support this approach
+==== CON: CollectionSpace does not support this approach
 
 You would not want to create "O'Keefe, Georgia - Biography" as a Person authority term because:
 

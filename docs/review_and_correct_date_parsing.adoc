@@ -31,7 +31,7 @@ Date data is notoriously inconsistent, ambiguous, and messy.
 
 Every application has to make some assumptions and decisions about how to handle dates. These assumptions may or may not match up with user expectations of how dates should be handled. CollectionSpace (CS) is no different.
 
-The best reference for understanding how CS derives the detailed date fields for a structured date field value (like Object Production Date) is https://github.com/collectionspace/services/blob/master/services/structureddate/structureddate/src/test/resources/test-dates.yaml[the application's date processing test data].
+The best reference for understanding how CollectionSpace derives the detailed date fields for a structured date field value (like Object Production Date) is https://github.com/collectionspace/services/blob/master/services/structureddate/structureddate/src/test/resources/test-dates.yaml[the application's date processing test data].
 
 Even if you are manually entering data into CS, it is easy to miss the fact that dates have been parsed in unexpected ways, so doing some periodic review is not a bad idea.
 
@@ -113,6 +113,6 @@ You could do the same search, but on Acquisition records and the Acquisition dat
 
 Currently the application does not support exporting the values of the date details fields from the user interface.
 
-If you have read/query access to your CS database, see https://github.com/lyrasis/collectionspace-sql/blob/main/reports/structured_date_field_data.adoc[collectionspace-sql queries for reporting structured date data] for example queries.
+If you have read/query access to your CollectionSpace database, see https://github.com/lyrasis/collectionspace-sql/blob/main/reports/structured_date_field_data.adoc[collectionspace-sql queries for reporting structured date data] for example queries.
 
-If you do not have read/query access to to your CS database, and you are Lyrasis-hosted, you can request a date data report via Zendesk. Let us know what fields (in what records) you want reports for.
+If you do not have read/query access to to your CollectionSpace database, and you are Lyrasis-hosted, you can request a date data report via Zendesk. Let us know what fields (in what records) you want reports for.

@@ -23,11 +23,11 @@ This approach involves a minor UI configuration code change. It usually takes a 
 
 After this change is made, you will see "Media, Digital, and Performace Art" when viewing or entering data in the CollectionSpace (CS) application user interface (the webapp).
 
-If you only enter data into CS manually via the webapp, and if you do not need to use or interact with the data outside the webapp (see "Why care about the underlying data value?" section, this approach probably is sufficient.
+If you only enter data into CollectionSpace manually via the webapp, and if you do not need to use or interact with the data outside the webapp (see "Why care about the underlying data value?" section, this approach probably is sufficient.
 
 == Other approach: keep underlying data value consistent with display value
 
-If you use the CSV Importer or use/interact with your CS data as listed under "Why care about the underlying data value?", then this approach may be preferable.
+If you use the CSV Importer or use/interact with your CollectionSpace data as listed under "Why care about the underlying data value?", then this approach may be preferable.
 
 This approach will take longer because it will require two rounds of code review/merge/deployment. This approach will also require effort from you, as you will need to use the CSV Importer to perform a batch update of your existing data in between the rounds of code changes.
 
