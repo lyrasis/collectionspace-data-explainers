@@ -15,9 +15,9 @@ endif::[]
 
 This documentation focuses in depth on how data behaves and can be used in CollectionSpace.
 
-The primary audience for this documentation is folks at institutions migrating into CollectionSpace, who need to make informed decisions about how to migrate data into CS.  
+The primary audience for this documentation is folks at institutions migrating into CollectionSpace, who need to make informed decisions about how to migrate data into CS.
 
-Information is added to this site in response to actual client questions in the process of LYRASIS custom migrations into CS.
+Information is added to this site in response to actual client questions in the process of LYRASIS custom migrations into CollectionSpace.
 
 IMPORTANT: Since this documentation is being developed and primarily used in the context of custom migrations into LYRASIS-hosted CollectionSpace instances, some information here may be specific to LYRASIS' architecture and instance configuration setup.
 
