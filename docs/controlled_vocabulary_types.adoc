@@ -13,17 +13,15 @@ endif::[]
 
 = Controlled vocabulary types
 
-Some fields in CollectionSpace (CS) are controlled. That is, you can only populate them using terms/values that are already established in a controlled vocabulary.
+Some fields in CollectionSpace are controlled. That is, you can only populate them using terms/values that are already established in a controlled vocabulary.
 
-This page describes the three types of controlled vocabularies in CS.
+This page describes the three types of controlled vocabularies in CollectionSpace.
 
 toc::[]
 
 == The three types of controlled vocabulary
 
 === Authorities
-
-See also: https://collectionspace.atlassian.net/wiki/spaces/COL/pages/536379393/CollectionSpace+User+Manual[CS User Manual sections on Authorities]
 
 Examples: Person, Storage Location
 
@@ -36,7 +34,7 @@ Examples: Person, Storage Location
 * Users with a sufficient level of permissions can create, edit, and delete authority records in the CollectionSpace web application
 * You can search for and export data from authorities in the CollectionSpace web application
 * Hierarchical relationships can be created between authority terms in the same authority vocabulary
-* The https://collectionspace.atlassian.net/wiki/spaces/COL/pages/905445377/User+Manual+Data+Updates+Merge+Authority+Items[Merge Authority Items data update] merges two authority terms from the same authority vocabulary. All reference to the source term are transferred to the target term.
+* The Merge Authority Items data update merges two authority terms from the same authority vocabulary. All reference to the source term are transferred to the target term.
 * A given field may be controlled by one or more authority vocabularies (examples from Core/Common profile):
 ** Acquisition Authorizer field controlled by Person - Local. (Person - ULAN terms cannot be used here)
 ** Acquisition Funding source field controlled by Person - Local and Organization - Local
@@ -45,11 +43,9 @@ Examples: Person, Storage Location
 
 AKA: vocabulary (not "authority vocabulary"), dynamic term list
 
-See also: https://collectionspace.atlassian.net/wiki/spaces/COL/pages/538312706/User+Manual+Term+List+Management[CS User Manual: Term List Management]
-
 * Limited number of terms
 * Limited number of fields for each term. In addition to the term name, you can record description, source, source page, and status.
-* Users with a sufficient level of permissions can create, edit, and delete terms in the CollectionSpace web application
+* Users with a sufficient level of permissions can create, edit, and delete terms in the CollectionSpace web application under `Tools > Term Lists`.
 * A given term list may be used to control several different fields, but a given field can only be controlled by one term list
 
 === Option lists
@@ -59,7 +55,7 @@ AKA: static term list
 * Even more limited number of terms
 * The only data recorded is an underlying data value (this is actually stored in the underlying records) and a display label for the data value (this is what you see in your records in the web application)
 * Defined in your CollectionSpace instance's UI configuration
-* For Lyrasis hosted clients, you must put in a Zendesk ticket requesting additions/changes to these. We will ask xref:option_list_value_change_options.adoc[which approach you want to take for any changes]. The faster/easier approach can take a week or longer, since multiple people are involved in changing your UI configuration code, reviewing and merging those changes, and redeploying your CollectionSpace instance.
+* For Lyrasis hosted clients, you must put in a Support Desk ticket requesting additions/changes to these. We will ask xref:option_list_value_change_options.adoc[which approach you want to take for any changes]. The faster/easier approach can take a week or longer, since multiple people are involved in changing your UI configuration code, reviewing and merging those changes, and redeploying your CollectionSpace instance.
 
 == FAQ
 
