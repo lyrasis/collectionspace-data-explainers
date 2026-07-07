@@ -33,11 +33,11 @@ This approach will take longer because it will require two rounds of code review
 
 The basic workflow is:
 
-* LYRASIS makes the following UI configuration changes:
+* Lyrasis makes the following UI configuration changes:
 ** Add a new term "Media, Digital, and Performance Art" (underlying data value: "media-digital-performance-art")
 ** Change the display label for "media-performance-art" to "Media and Performance Art (deprecated, USE Media, Digital, and Performance Art)"
-* Client uses advanced search, record export, and CSV Importer to update all instances of "media-performance-art" to "media-digital-performance-art". Client notifies LYRASIS when this work is complete.
-* LYRASIS makes another UI configuration change to remove the "media-performance-art" value
+* Client uses advanced search, record export, and CSV Importer to update all instances of "media-performance-art" to "media-digital-performance-art". Client notifies Lyrasis when this work is complete.
+* Lyrasis makes another UI configuration change to remove the "media-performance-art" value
 
 
 == Why care about the underlying data value?
@@ -48,5 +48,4 @@ Using the CSV Importer to create or update values controlled by static term list
 Reports:: Reports pull data directly from the PostgreSQL database, which stores only the undelying data values. If a report includes the department value, you will see "media-performance-art" as the value in that report. If you are developing your own reports, see also the item for *Querying the PostgreSQL database*.
 Using the REST API:: The REST API interacts directly with the underlying data layer, which only knows the "media-performance-art" value. If you want to search for records with the "Media, Digital, and Performance Art" department via the API, you must construct the API call to search for "media-performance-art".
 Querying the PostgreSQL database:: The database stores the underlying data values. To construct a query including or excluding the "Media, Digital, and Performance Art" department as query criteria, you must use "media-performance-art" in your query.
-Potential future migration out of CS:: Whoever is performing such a migration may only have access to the underlying data values. If these do not match the values you expect to see in the data in the system, a migration could have unexpected results. 
-
+Potential future migration out of CS:: Whoever is performing such a migration may only have access to the underlying data values. If these do not match the values you expect to see in the data in the system, a migration could have unexpected results.
