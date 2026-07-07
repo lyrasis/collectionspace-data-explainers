@@ -19,7 +19,10 @@ The primary audience for this documentation is folks at institutions migrating i
 
 Information is added to this site in response to actual client questions in the process of LYRASIS custom migrations into CollectionSpace.
 
-IMPORTANT: Since this documentation is being developed and primarily used in the context of custom migrations into LYRASIS-hosted CollectionSpace instances, some information here may be specific to LYRASIS' architecture and instance configuration setup.
+[IMPORTANT]
+====
+Since this documentation is being developed and primarily used in the context of custom migrations into LYRASIS-hosted CollectionSpace instances, some information here may be specific to LYRASIS' architecture and instance configuration setup.
+====
 
 == Other documentation and resources
 
