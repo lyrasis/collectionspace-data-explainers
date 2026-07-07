@@ -16,7 +16,6 @@ endif::[]
 See also:
 
 * xref:location_authority.adoc[Storage Location authority info and decisions]
-* https://collectionspace.atlassian.net/wiki/spaces/COL/pages/536379393/CollectionSpace+User+Manual[CS User Manual]
 
 toc::[]
 
@@ -33,12 +32,10 @@ toc::[]
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2020.1.27
   Current location: Storage room C
   Location date: 2021-11-01
@@ -59,13 +56,11 @@ image::obj_lmi_1.png[1920]
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2020.1.27
   Current location: Storage room C
   Location date: 2021-11-01
@@ -93,12 +88,10 @@ image::obj_lmi_2.png[2786]
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2020.1.27
   Current location: Storage room C
   Location date: 2021-11-01
@@ -123,13 +116,11 @@ OBJ2<-->LMI1
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2020.1.27
   Current location: Storage room C
   Location date: 2021-11-01
@@ -200,12 +191,10 @@ Exceptions:
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2023.6.01
   Current location: Storage room C
   Location date: blank
@@ -227,13 +216,11 @@ _Computed current location_ = _Storage room C_
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2023.6.01
   Current location: Storage room C
   Location date: 2023-06-01
@@ -265,13 +252,11 @@ _Computed current location_ = _Storage room C_
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2023.6.01
   Current location: Storage room C
   Location date: 2023-06-12
@@ -302,14 +287,12 @@ _Computed current location_ = _Storage room C_
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
   SL3["Storage room D"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2023.6.01
   Current location: Storage room C
   Location date: 2023-06-12
@@ -347,14 +330,12 @@ _Computed current location_ = _Storage room C_
 [source,mermaid]
 ----
 flowchart LR
-subgraph loc ["`Storage Location/Local
-Authority`"]
+subgraph loc ["`Storage Location/Local`"]
   SL1["Storage room C"]
   SL2["Storage room E"]
   SL3["Storage room D"]
 end
-subgraph lmi ["`Location/Movement/Inventory
-Procedures`"]
+subgraph lmi ["`LMIs`"]
   LMI1["`LOC2023.6.01
   Current location: Storage room C
   Location date: blank
