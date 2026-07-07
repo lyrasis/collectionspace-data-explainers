@@ -16,7 +16,7 @@ endif::[]
 See also:
 
 * xref:object_locations_lmi.adoc[Object location, Location/movement/inventory (LMI) procedure, and Storage location authority]
-* https://collectionspace.atlassian.net/wiki/spaces/COL/pages/536379393/CollectionSpace+User+Manual[CS User Manual]
+* https://collectionspace.atlassian.net/wiki/spaces/CUD/pages/3454533633/Location+Movement+Inventory+Physical+Control+Procedure[CollectionSpace User Manual 🔒]
 
 toc::[]
 
@@ -27,20 +27,20 @@ toc::[]
 * We are likely to use "Storage locations" and "Locations" interchangeably to refer to terms in these authorities.
 * Organization authority terms can also be used to populate location fields in the LMI procedure.
 * In the Fine and Contemporary Art (FCART) and Public Art domain profiles, Place authority terms can also be used to populate location fields in the LMI procedure.
-* Like all authority terms, Storage locations can be https://collectionspace.atlassian.net/wiki/spaces/COL/pages/546013229/User+Manual+Creating+Authority+Hierarchies[organized in a hierarchy]. See https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
+* Like all authority terms, Storage locations can be organized in a hierarchy. See xref:authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
 
 == Decisions you may be asked to make
 === Do you want a location hierarchy?
 
 Some legacy systems make it fairly easy to extract data we can use to create a location hierarchy in CS.
 
-However, we have had clients who didn't see the need for it, given the information in https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
+However, we have had clients who didn't see the need for it, given the information in xref:authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
 
 We tend to default to creating a hierarchy if we have the necessary data available, but if you don't want it, just let us know.
 
 === Which Storage Location authority vocabulary should each location term be assigned to?
 
-CS allows you to create authorized terms for storage locations in two separate vocabularies: local and offsite:
+CollectionSpace allows you to create authorized terms for storage locations in two separate vocabularies: local and offsite:
 
 image::authorities_create_new.png[354]
 +++&nbsp;+++
@@ -57,7 +57,6 @@ Your legacy system may have the following location values:
 * Museum of Stuff > Offsite storage
 * Museum of Stuff > Offsite storage > Room 123
 * Museum of Stuff > Offsite storage > Rm 123 > Shelf 4
-* Museum of Stuff > Out for repair
 * Academy of Stuff Studies
 * Museum of Stuff > Metro Airport
 * Museum of Stuff > Metro Airport > Display Case 1
@@ -85,7 +84,6 @@ Depending on your situation, there may be benefits to separating the Storage Loc
 * Museum of Stuff > Offsite storage
 * Museum of Stuff > Offsite storage > Room 123
 * Museum of Stuff > Offsite storage > Rm 123 > Shelf 4
-* Museum of Stuff > Out for repair
 
 **And the following...**
 
@@ -103,7 +101,7 @@ Depending on your situation, there may be benefits to separating the Storage Loc
 
 
 ==== Some benefits of this approach
-If we are creating a location hierarchy, our typical practice is to https://github.com/lyrasis/collectionspace-migration-explainers/blob/main/docs/authority_and_object_hierarchy.adoc#represent-the-hierarchy-in-the-object-number-or-term-display-name[represent the hierarchy in the term display name].
+If we are creating a location hierarchy, our typical practice is to xref:authority_and_object_hierarchy.adoc#represent-the-hierarchy-in-the-object-number-or-term-display-name[represent the hierarchy in the term display name].
 
 Depending on the organization, categorizing into different authorities can eliminate some of the levels of hierarchy we need to record in a lot of terms.
 
@@ -127,13 +125,15 @@ Maybe the following would work:
 * Museum Offsite Storage
 * Museum Offsite Storage > Room 123
 * Museum Offsite Storage > Rm 123 > Shelf 4
-* Out for repair
 * Metro Airport
 * Metro Airport > Display Case 1
 * Metro Airport > Case 2
 * Jerry Q. Collector
 
-**We realize that hierarchy levels that may look unnecessary to us might serve important local purposes, but present the above as the type of thing to think about when you are reviewing your locations for migration, just in case this kind of restructuring is an improvement for you.**
+[NOTE]
+====
+We realize that hierarchy levels that may look unnecessary to us might serve important local purposes, but present the above as the type of thing to think about when you are reviewing your locations for migration, just in case this kind of restructuring is an improvement for you.
+====
 
 === Review location names for consistency, with an eye to shortening them
 
@@ -157,7 +157,6 @@ The following is a most extreme shortening example, but this sort of thing has w
 * MOS
 * MOS>R123
 * MOS>R123>S4
-* Out for repair
 * Airport
 * Airport>1
 * Airport>2
@@ -178,7 +177,7 @@ You can easily add your own Location Type values under `Tools > Term Lists > Loc
 
 During location cleanup/review, you have the option to add or change location type values.
 
-**You may also tell us you don't want location type values set in CS**
+**You may also tell us you don't want location type values set in CollectionSpace**
 
 It is one thing to batch migrate all data in via a consistent process, however:
 
@@ -189,9 +188,9 @@ It is one thing to batch migrate all data in via a consistent process, however:
 
 Some other systems have support for crates (or boxes or containers). Broadly, a crate isn't a location because the crate itself is stored in or moved between locations. A crate may contain one or more objects, but isn't itself part of an object hierarchy because it is temporary. So the crate functionality provides a way to say one or more objects are in a thing, and that thing is in a location.
 
-CS does not currently support this functionality, though it is on the roadmap.
+CollectionSpace does not currently support this functionality, though it is on the roadmap.
 
-There are a few different ways we can model crate information in CS, though each has functionality tradeoffs.
+There are a few different ways we can model crate information in CollectionSpace, though each has functionality tradeoffs.
 
 ==== As sub-location
 So far, all of the migrations we have done for clients with crate data have used this approach.
