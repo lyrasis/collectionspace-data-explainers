@@ -15,7 +15,7 @@ endif::[]
 
 Some clients migrate to CollectionSpace from systems where precoordinate subject indexing systems like Library of Congress Subject Headings were used.
 
-These clients will need to decide how they want this subject data treated in CS.
+These clients will need to decide how they want this subject data treated in CollectionSpace.
 
 This page lays out some pros and cons of different approaches.
 
@@ -96,16 +96,16 @@ Concept/topic OR Genre/form terms:
 For the last group, it depends on whether the thing being described _is_ photography/photographs or _is about_ photography.
 ====
 
-== What works best in CS?
+== What works best in CollectionSpace?
 
 Unfortunately, there is no straightforward, across-the-board answer to this question. It will depend on:
 
 * How subjects are represented in your legacy data
 * How much time/effort you want to spend on data cleanup in the migration
-* Your needs and priorities for using this data in CS
+* Your needs and priorities for using this data in CollectionSpace
 * To some extent, what CollectionSpace domain profile you are migrating into
 
-Below, we'll go over some pros and cons of each of the approaches described above in the context of CS.
+Below, we'll go over some pros and cons of each of the approaches described above in the context of CollectionSpace.
 
 == Pros and cons of approaches
 
@@ -123,7 +123,7 @@ image::obj_content_fields.png[2240]
 image::obj_associations_fields.png[2240]
 +++&nbsp;+++
 
-Taking this approach, we create the necessary terms in the appropriate authority vocabularies and populate the record like this:footnote:["20th century" should actually go in the new, controlled _Content era/period_ field expected to ship in v7.2, but the field isn't showing up yet]
+Taking this approach, we create the necessary terms in the appropriate authority vocabularies and populate the record like this:footnote:[As of v7.2, "20th century" would actually go in the new, controlled _Content era/period_ field. The time and effort to redo this screenshot is not worth the benefit to explaining the overall concepts of this page.]
 
 .Book about Georgia O'Keefe, Stieglitz' photography of her, and New Mexico history
 image::obj_okeefe_bio_content_postcoord.png[1052]
@@ -160,6 +160,11 @@ Note that Content place is *not* controlled by the place authority. I can enter 
 I will not be able see that there are objects with "New Mexico" as Content place when I look at any "New Mexico" place authority term.
 
 What fields are controlled by authorities, and which authorities are used to control each field, varies across domain profiles. For example, the Content place field current is controlled by the place authority in the bonsai, fine & contemporary art (FCART), and local history & material culture (LHMC) domain profiles.
+
+[TIP]
+====
+Given your specific data and the domain profile you are migrating into, your Migration Specialist will be able to tell you how this CON would impact you.
+====
 
 ==== CON: Loss of search specificity/precision
 
@@ -254,27 +259,7 @@ It is now difficult-to-impossible to find everything pertaining to Georgia O'Kee
 
 Looking at the Person term record for O'Keefe no longer shows the usage of her name in this record. That is because her _person_ name is not used in this record. A concept term that starts with her name is used in this record.
 
-Further, currently (as of v7.2), there is a fairly significant limitation in CollectionSpace advanced search when searching on fields controlled by authority vocabularies.
-
-.Advanced search options for fields controlled by authority vocabularies
-image::authority_controlled_field_search_opts.png[986]
-+++&nbsp;+++
-
-You may specify only that:
-
-* The field contains a specific term (the full exact term, e.g. "O'Keefe, Georgia -- Biography", which you select from list of terms matching what you typed)
-* The field does not contain a specific term (selected as above)
-* The field is not blank
-* The field is blank
-
-**You cannot easily find all objects having a _Content concept_ field value that _contains_ "Biography".**
-
-Achieving this would require:
-
-1. Identify all Concept terms containing "Biography" via an advanced search on Concepts.
-2. Using that list, manually construct an advanced search query on Objects that adds a new "or Content concept is..." line for every term.
-
-You can do a keyword search (top of screen) for "Biography," but that will return all records with that term used anywhere, which can return a lot of noise in your results.
+Release 8.3's support for `contains` or `matches` (with wildcard) searches of authority-controlled field values mitigates this somewhat.
 
 ==== CON: Long authority terms can be hard to work with in various aspects of the UI
 
