@@ -183,6 +183,56 @@ Exceptions:
 * Public art profile
 ** Not included in record
 
+[#dummylocations]
+== Need for dummy Storage location values and LMI procedures
+
+When an Object is missing or has been removed from the collection (e.g. deaccessioned, sold, destroyed, returned to owner, etc.), you don't want its `Current computed location` to still indicate that the item is being stored by your institution.
+
+We generally need to establish at least two dummy Storage Location values, given that:
+
+* The only way to change the `Current computed location` of an Object is by relating it to a new LMI; and
+* The LMI requires a `Current location` field
+
+The typical dummy Storage Location values are:
+
+* Unknown location
+* No location
+
+=== Recommended typical workflow for missing Objects
+
+When an Object is discovered to be missing:
+
+* In Object record(s):
+** Optional: Add `missing` to `Inventory status`
+** Optional: Record any information about last known location and discovery of missing status in a `location`-type `Annotation`.
+* Create new LMI procedure with `Current location` = `Unknown location` and the `Location date`.
+* Create relationship between missing object(s) and the new LMI.{empty}footnote:[Note that multiple missing objects with different last-known locations can be attached to one new LMI indicating their locations are now unknown.]
+
+The only information from the LMI that is directly viewable in the Object record is the `Current location` value from the LMI identified by the system as current.
+You can view the entire location history of an Object by viewing all its related LMIs, but many find this too complicated.
+This is why We recommend recording information about last known location and discovery of missing status in a `location`-type `Annotation` in the Object, instead of in the LMI.
+
+[NOTE]
+====
+Starting with CollectionSpace 9.0 (expected in late summer 2026), we recommend you record the last known location as the `Home location` in the Object, and any additional notes about the missing status in the note field that accompanies the `Home location` value.
+====
+
+==== If Object is found
+
+* Create new LMI indicating the newly known storage location and date
+* Relate new LMI to the found Object
+* In Object record:
+** Delete any `missing` value from `Inventory status`
+** Delete any information about last known location. You no longer need this for easy reference in the Object. You definitely do not want the last known location recorded as `Home location` for the new known Storage location.
+
+=== Recommended typical workflow for Objects that have exited
+
+* In Object:
+** Add relevant value (such as `deaccessioned`, `discarded`, or `returned loan object`) to `Inventory status`
+** Create relevant procedures (possibly `Deaccession`, `Object Exit`, and/or `Transport`) to capture details about the exit, and relate these to the Object
+** Create new LMI with `Location date` and `Current location` = `No location`
+** Relate new LMI to the Object
+
 
 == More detailed examples/tests of how _Current computed location_ gets set
 
