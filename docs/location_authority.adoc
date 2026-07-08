@@ -29,7 +29,10 @@ toc::[]
 * In the Fine and Contemporary Art (FCART) and Public Art domain profiles, Place authority terms can also be used to populate location fields in the LMI procedure.
 * Like all authority terms, Storage locations can be organized in a hierarchy. See xref:authority_and_object_hierarchy.adoc[Authority and object hierarchy in CollectionSpace].
 
+[#decisions]
 == Decisions you may be asked to make
+
+[#decisionhierarchy]
 === Do you want a location hierarchy?
 
 Some legacy systems make it fairly easy to extract data we can use to create a location hierarchy in CS.
@@ -38,6 +41,7 @@ However, we have had clients who didn't see the need for it, given the informati
 
 We tend to default to creating a hierarchy if we have the necessary data available, but if you don't want it, just let us know.
 
+[#whichtype]
 === Which Storage Location authority vocabulary should each location term be assigned to?
 
 CollectionSpace allows you to create authorized terms for storage locations in two separate vocabularies: local and offsite:
@@ -135,6 +139,7 @@ Maybe the following would work:
 We realize that hierarchy levels that may look unnecessary to us might serve important local purposes, but present the above as the type of thing to think about when you are reviewing your locations for migration, just in case this kind of restructuring is an improvement for you.
 ====
 
+[#shorten]
 === Review location names for consistency, with an eye to shortening them
 
 Is there a way you can shorten locations in a consistent way, that will still be meaningful and easy to use for you? This can be a big benefit for viewing these values within the application.
@@ -164,6 +169,7 @@ The following is a most extreme shortening example, but this sort of thing has w
 
 Taking this approach, the longer form could optionally be mapped into the location record, either as the `Term > Name` field value, or as a variant form of the location name.
 
+[#typefield]
 === Storage location type field
 
 This field lets you specify the type of location: room, building, drawer, shelf, etc.
@@ -184,6 +190,7 @@ It is one thing to batch migrate all data in via a consistent process, however:
 * Is this something you imagine yourself consistently populating when you add new locations going forward? If not, do you want it in the migrated data?
 * If it is set via a "dumb" mapping based on text in the location name, does it add anything useful to know that "Room 7" is a room? Do you expect to use this field for searching/filtering/reporting?footnote:[In the application UI, you can currently only search on this field when conducting a search for Storage Location terms. That is, you can retrieve Storage Locations that are Shelves. You cannot currently do things like search for objects in locations where the storage location type = "Shelf"] If not, maybe it is not important for you?
 
+[#crates]
 === How to handle crates/boxes/containers
 
 Some other systems have support for crates (or boxes or containers). Broadly, a crate isn't a location because the crate itself is stored in or moved between locations. A crate may contain one or more objects, but isn't itself part of an object hierarchy because it is temporary. So the crate functionality provides a way to say one or more objects are in a thing, and that thing is in a location.
@@ -226,3 +233,91 @@ Con:
 ==== Other options
 
 If a permanent record of crate movement is required, or if the above strategy does not work for other reasons, your migration specialist can work through other options with you.
+
+[#locfcar]
+== Location authority cleanup worksheet - General info and instructions
+
+This information will likely be supplemented by details specific to your migration.
+
+[IMPORTANT]
+====
+The first thing to do when you receive your worksheet is to review the worksheet and the <<preprocessing>> section below.
+
+Let your Migration Specialist know if there are changes you want made to the programmatically applied preprocessing before you start completing the worksheet.
+====
+
+[#preprocessing]
+=== Location cleanup preprocessing that may be applied to your data
+
+The following preprocessing may be applied to your location authority values in the migration process. The processing is based on best practices in CollectionSpace.
+
+You will have the opportunity to review and correct these in the worksheet where you finalize your location authority terms.
+
+Any of this preprocessing can be easily changed or reverted, but if you want it changed, you need to let your Migration Specialist know before you start working in your location worksheet.
+
+==== Programmatic assignment of authority vocabulary type
+
+Assignment of local (storage location), offsite (storage location), or org authority vocabulary indication.
+
+Typically your Migration Specialist can make some guesses about your locations and populate this column for a lot of values.
+
+They can adjust the parameters of this automatic assignment if they got something wrong that is too hard to correct in the worksheet.
+
+==== Remapping of locations indicating item is missing
+
+See also: xref:object_locations_lmi.adoc##dummylocations[Dummy locations and workflow for missing items]
+
+"Missing" isn't a storage location, so we don't recommend creating a Storage Location value for this state.
+
+Instead, we generally:
+
+* Map this to an "Unknown location" Storage location term;
+* Add "missing" to the affected Objects' `Inventory status`; and
+* Record any additional information in the source data location value in an `Annotation` with `type` = `location`.
+
+This supports:
+
+* Identification/retrieval all Objects that are missing with a search on the `Inventory status` or by `Computed current location` = `Unknown location`.
+* Representation of periods of time where an item was missing in the location history retained by CollectionSpace
+* Viewing of relevant details of last known location information in the affect Object record
+
+==== Remapping of locations indicating item has been returned, transferred, sold, or otherwise exited
+
+See also: xref:object_locations_lmi.adoc##dummylocations[Dummy locations and workflow for exited items]
+
+These are treated similarly as above, except we set the location to `No location`.
+
+If the data we are migrating is structured such that we can generate relevant procedures capturing exit details, we will do that.
+Otherwise we create an `exit`-type `Annotation` to capture relevant information about the exit recorded as location data in the source system.
+
+[#otherremapped]
+==== Other frequently-remapped info
+
+If we see the following kinds of information in your migration location values, we may add columns to your location review/cleanup worksheet and, where possible, pre-populate them for you:
+
+location note:: Any information from the original/source location value that is not really the storage location itself, but describes something specific about the Object's storage in that location. This can include indication that the location is uncertain, or that the Object is draped over the shelf recorded as the location. Data in this worksheet column gets mapped into a `location`-type `Annotation` in the relevant Objects.
+storage instructions:: If an item needs to be stored flat, this belongs in the Object record. It does not usually pply to a specific storage location; instead, any storage location for the Object should meet this criteria. Data from this column of the worksheet is mapped to a `storage instruction`-type `Annotation` in the relevant Objects.
+item indicators:: The fact that a given storage location only applies to some of the components described in an Object is not about the storage location. This information belongs in the Object, or possibly the LMI. This type of issue generally takes too much time/effort to sort out to handle during the migration, so your Migration Specialist will work with you to determine how to map this information into CollectionSpace to support post-migration cleanup. *The important thing in a worksheet is to remove these indicators from the actual location values, and record them in their own column.*
+movement reason and movement note:: An example of this would be for an original location value like `Room 3 Shelf 2 - for new storage box`. _Why_ the Object is on `Room 3 Shelf 2` is not part of the fact that `Room 3 Shelf 2` is the current storage location of the Object. There are fields in the Location/Movement/Inventory (LMI) procedure to record the "Why" of the location. However, remember that the values of these LMI fields cannot be viewed from the Object(s) related to the LMI. If you want to see the "Why" information in the Object(s), we recommend you put this information in the column for location notes. If this information is in the columns for movement reason (a controlled field in the LMI) and/or movement note, it will map into the LMI that will be related to the relevant Object(s).
+
+=== General worksheet description & instructions
+
+The worksheet will always have columns for:
+
+* Existing/source location values - *MAKE CHANGES HERE*. These values will become the "preferred form" of storage location authority records created in CollectionSpace. You will see these values in the `Current computed location` field of your Object records once we have loaded all location information.
+* Location authority type (local, offsite, org) - *MAKE CHANGES HERE*. Controls which authority vocabulary the terms will be created in. See <<whichtype>>.
+* Indication of the original location values feeding each worksheet row - For reference; changes will be lost
+🔒
+Most often, the worksheet also has a column for:
+
+* recording location notes as described in <<otherremapped>>  - *MAKE CHANGES HERE*
+* listing the ids of Objects that have this location - For reference; changes will be lost
+* a count of how many Objects have this location - For reference; changes will be lost
+
+
+As needed, your worksheet will also have additional columns to support the <<preprocessing,types of issues that we may be able to apply some preprocessing to>>.
+
+*MAKE CHANGES TO ANY OF THESE COLUMNS*
+
+Your worksheet will also always have hidden columns required for merging your changes back into the migration.
+*We recommend you leave these columns hidden and never edit them*.
